@@ -49,15 +49,15 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
-                <div className="mobile-menu-overlay">
+                <div className="fixed inset-0 z-40 glass flex flex-col items-center justify-center gap-6 text-xl font-bold md:hidden">
                     <Link href="/service-intro" onClick={() => setIsMenuOpen(false)}>서비스 소개</Link>
                     <Link href="/ai-matching" onClick={() => setIsMenuOpen(false)}>AI 매칭</Link>
                     <Link href="/community" onClick={() => setIsMenuOpen(false)}>커뮤니티</Link>
-                    <div className="w-32 h-px bg-white/20 my-4" />
+                    <div className="w-32 h-px bg-white/10 my-2" />
                     <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-gray-300">로그인</Link>
                     <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="text-purple-400">회원가입</Link>
-                    <button className="absolute top-6 right-6 p-2" onClick={() => setIsMenuOpen(false)}>
-                        <X size={28} />
+                    <button className="absolute top-8 right-8" onClick={() => setIsMenuOpen(false)}>
+                        <X />
                     </button>
                 </div>
             )}

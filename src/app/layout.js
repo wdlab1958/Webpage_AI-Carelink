@@ -13,13 +13,6 @@ export const metadata = {
   keywords: "AI 간병, 실버 케어, 고령층 돌봄, 스마트 매칭, AI 건강 모니터링",
 };
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="ko" suppressHydrationWarning>

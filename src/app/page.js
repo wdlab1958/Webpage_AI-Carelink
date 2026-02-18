@@ -51,40 +51,40 @@ export default function Home() {
               <span className="text-sm font-medium">Technology Care for People</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-8xl font-black mb-6 md:mb-8 leading-tight">
-              기술이 사람을 이해할 때, <br className="hidden md:block" />
+            <h1 className="text-6xl md:text-8xl font-black mb-8 leading-tight">
+              기술이 사람을 이해할 때, <br />
               <span className="text-gradient-purple">진정한 돌봄이 시작됩니다</span>
             </h1>
 
-            <p className="text-base md:text-xl lg:text-2xl text-gray-400 mb-8 md:mb-12 max-w-2xl mx-auto px-4 md:px-0">
-              AI CareLink는 환자와 간병인, 병원, 요양 커머스를 하나로 연결하는{' '}
+            <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto">
+              AI CareLink는 환자와 간병인, 병원, 요양 커머스를 하나로 연결하는 <br className="hidden md:block" />
               <span className="text-peach font-semibold" style={{ color: 'hsl(var(--human-peach))' }}>AI 기반 통합 간병 매칭 플랫폼</span>입니다.
             </p>
 
             {/* Market Stats */}
-            <div className="flex flex-col md:flex-row flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-12 px-4 md:px-0">
-              <div className="px-4 md:px-6 py-2 md:py-3 glass rounded-2xl border border-white/10">
-                <span className="text-purple-400 font-black text-lg md:text-2xl">10조+</span>
-                <span className="text-gray-400 text-xs md:text-sm ml-2">사적 간병 시장</span>
+            <div className="flex flex-wrap justify-center gap-6 mb-12">
+              <div className="px-6 py-3 glass rounded-2xl border border-white/10">
+                <span className="text-purple-400 font-black text-2xl">10조+</span>
+                <span className="text-gray-400 text-sm ml-2">사적 간병 시장</span>
               </div>
-              <div className="px-4 md:px-6 py-2 md:py-3 glass rounded-2xl border border-white/10">
-                <span className="text-blue-400 font-black text-lg md:text-2xl">6.5조</span>
-                <span className="text-gray-400 text-xs md:text-sm ml-2">정부 투입 예산 (2030)</span>
+              <div className="px-6 py-3 glass rounded-2xl border border-white/10">
+                <span className="text-blue-400 font-black text-2xl">6.5조</span>
+                <span className="text-gray-400 text-sm ml-2">정부 투입 예산 (2030)</span>
               </div>
-              <div className="px-4 md:px-6 py-2 md:py-3 glass rounded-2xl border border-white/10">
-                <span className="text-green-400 font-black text-lg md:text-2xl">100%→30%</span>
-                <span className="text-gray-400 text-xs md:text-sm ml-2">본인부담률 변화</span>
+              <div className="px-6 py-3 glass rounded-2xl border border-white/10">
+                <span className="text-green-400 font-black text-2xl">100%→30%</span>
+                <span className="text-gray-400 text-sm ml-2">본인부담률 변화</span>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center px-4 md:px-0">
+            <div className="flex flex-col md:flex-row gap-4 justify-center">
               <button
                 onClick={() => window.location.href = AI_CARELINK_SERVER_URL}
-                className="px-6 md:px-10 py-4 md:py-5 glass border border-white/10 rounded-2xl font-bold text-base md:text-xl text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+                className="px-10 py-5 glass border border-white/10 rounded-2xl font-bold text-xl text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
               >
-                맞춤 간병인 매칭하기 <ChevronRight size={20} />
+                맞춤 간병인 매칭하기 <ChevronRight size={24} />
               </button>
-              <button className="px-6 md:px-10 py-4 md:py-5 glass border border-white/10 rounded-2xl font-bold text-base md:text-xl text-white hover:bg-white/10 transition-colors">
+              <button className="px-10 py-5 glass border border-white/10 rounded-2xl font-bold text-xl text-white hover:bg-white/10 transition-colors">
                 서비스 가이드
               </button>
             </div>
