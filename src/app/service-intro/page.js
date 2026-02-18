@@ -92,7 +92,7 @@ export default function ServiceIntro() {
                         >
                             <div className="relative w-full" style={{ height: '400px' }}>
                                 <Image
-                                    src="/images/korean_caregiver_comfort.png"
+                                    src="/Webpage_AI-Carelink/images/korean_caregiver_comfort.png"
                                     alt="Comforting senior care"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 100vw"
@@ -134,7 +134,7 @@ export default function ServiceIntro() {
                             <div className="flex-1 order-1 md:order-2">
                                 <div className="aspect-square rounded-[40px] glass border border-white/10 relative overflow-hidden group">
                                     <Image
-                                        src="/images/korean_senior_rehab_walk.png"
+                                        src="/Webpage_AI-Carelink/images/korean_senior_rehab_walk.png"
                                         alt="Rehabilitation assistance"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -151,7 +151,7 @@ export default function ServiceIntro() {
                             <div className="flex-1">
                                 <div className="aspect-square rounded-[40px] glass border border-white/10 relative overflow-hidden group">
                                     <Image
-                                        src="/images/korean_senior_tablet_care.png"
+                                        src="/Webpage_AI-Carelink/images/korean_senior_tablet_care.png"
                                         alt="Smart tech care"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 50vw"

@@ -215,21 +215,21 @@ export default function Home() {
               specialties={["치매 케어", "재활 보조"]}
               matchRate={98}
               location="서울시 서초구"
-              imgSrc="/images/korean_specialist_main.jpg"
+              imgSrc="/Webpage_AI-Carelink/images/korean_specialist_main.jpg"
             />
             <CaregiverProfileCard
               name="이정희"
               specialties={["욕창 관리", "식이 조절"]}
               matchRate={95}
               location="서울시 강남구"
-              imgSrc="/images/caregiver_2.png"
+              imgSrc="/Webpage_AI-Carelink/images/caregiver_2.png"
             />
             <CaregiverProfileCard
               name="박미숙"
               specialties={["정서 지원", "거동 보조"]}
               matchRate={92}
               location="서울시 송파구"
-              imgSrc="/images/korean_caregiver_3_pink.png"
+              imgSrc="/Webpage_AI-Carelink/images/korean_caregiver_3_pink.png"
             />
           </div>
 

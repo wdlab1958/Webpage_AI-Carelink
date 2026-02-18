@@ -10,7 +10,7 @@ export default function CaregiverProfileCard({
     specialties = ["치매 케어", "재활 보조"],
     location = "서울시 서초구",
     matchRate = 98,
-    imgSrc = "/images/caregiver_1.png"
+    imgSrc = "/Webpage_AI-Carelink/images/caregiver_1.png"
 }) {
     return (
         <div className="glass-card p-6 rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all group">
