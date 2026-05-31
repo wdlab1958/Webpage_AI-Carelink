@@ -306,7 +306,7 @@ export default function PrivacyPage() {
             {/* Info Box */}
             <div className="p-6 glass rounded-2xl border border-white/10 mb-8">
               <p className="text-gray-300 text-sm leading-relaxed">
-                AI CareLink(이하 "회사")는 개인정보보호법 등 관련 법령에 따라 이용자의 개인정보를 보호하고
+                AI CareLink(이하 &ldquo;회사&rdquo;)는 개인정보보호법 등 관련 법령에 따라 이용자의 개인정보를 보호하고
                 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보처리방침을 수립·공개합니다.
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-400">

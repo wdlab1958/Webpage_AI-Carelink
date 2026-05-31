@@ -52,7 +52,7 @@ export default function ServiceIntro() {
                             <p className="text-gray-400 text-lg leading-relaxed mb-8">
                                 병원 밖에서도 안전하고 존엄한 삶을 영위하는 것. <br />
                                 그것이 AI CareLink가 존재하는 이유입니다.
-                                우리는 차가운 데이터 너머에 있는 '사람'을 봅니다.
+                                우리는 차가운 데이터 너머에 있는 &lsquo;사람&rsquo;을 봅니다.
                             </p>
                             <ul className="space-y-4">
                                 {["정서적 유대감 형성", "빈틈없는 안전망", "개인화된 존중"].map((item, i) => (
@@ -92,7 +92,7 @@ export default function ServiceIntro() {
                         >
                             <div className="relative w-full" style={{ height: '400px' }}>
                                 <Image
-                                    src="/Webpage_AI-Carelink/images/korean_caregiver_comfort.png"
+                                    src="/images/korean_caregiver_comfort.png"
                                     alt="Comforting senior care"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 100vw"
@@ -100,7 +100,7 @@ export default function ServiceIntro() {
                                     className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                                    <p className="text-white font-bold text-xl">"따뜻한 손길이 최고의 치유입니다"</p>
+                                    <p className="text-white font-bold text-xl">&ldquo;따뜻한 손길이 최고의 치유입니다&rdquo;</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -127,14 +127,14 @@ export default function ServiceIntro() {
                                     마음이 맞는 최적의 간병인을 연결해 드립니다.
                                 </p>
                                 <div className="p-6 glass rounded-2xl border border-white/5 bg-purple-900/10">
-                                    <p className="text-purple-200 italic">"어머님이 낯가림이 심하신데, 조용하고 차분한 선생님을 만나서 정말 편안해하세요."</p>
+                                    <p className="text-purple-200 italic">&ldquo;어머님이 낯가림이 심하신데, 조용하고 차분한 선생님을 만나서 정말 편안해하세요.&rdquo;</p>
                                     <p className="text-right text-sm text-purple-400 mt-2">- 김** 보호자님 후기</p>
                                 </div>
                             </div>
                             <div className="flex-1 order-1 md:order-2">
                                 <div className="aspect-square rounded-[40px] glass border border-white/10 relative overflow-hidden group">
                                     <Image
-                                        src="/Webpage_AI-Carelink/images/korean_senior_rehab_walk.png"
+                                        src="/images/korean_senior_rehab_walk.png"
                                         alt="Rehabilitation assistance"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -151,7 +151,7 @@ export default function ServiceIntro() {
                             <div className="flex-1">
                                 <div className="aspect-square rounded-[40px] glass border border-white/10 relative overflow-hidden group">
                                     <Image
-                                        src="/Webpage_AI-Carelink/images/korean_senior_tablet_care.png"
+                                        src="/images/korean_senior_tablet_care.png"
                                         alt="Smart tech care"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -166,7 +166,7 @@ export default function ServiceIntro() {
                                 </div>
                                 <h3 className="text-3xl font-bold mb-6">안심을 전하는 <br /><span className="text-green-400">스마트 리포트</span></h3>
                                 <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                                    "오늘 밥은 잘 드셨나?", "잠은 잘 주무셨나?" 걱정하지 마세요.
+                                    &ldquo;오늘 밥은 잘 드셨나?&rdquo;, &ldquo;잠은 잘 주무셨나?&rdquo; 걱정하지 마세요.
                                     식사량, 수면 패턴, 그날의 기분까지 AI가 꼼꼼히 기록하여 매일 저녁 따뜻한 알림톡으로 보내드립니다.
                                 </p>
                                 <ul className="space-y-3">

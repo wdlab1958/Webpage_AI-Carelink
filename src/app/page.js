@@ -121,7 +121,7 @@ export default function Home() {
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">요양병원 간병비 급여화 시대</h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              2026년, 대한민국 간병 시장은 '사적 계약'에서 '제도권'으로 진입하는 역사적 전환점을 맞이합니다.
+              2026년, 대한민국 간병 시장은 &lsquo;사적 계약&rsquo;에서 &lsquo;제도권&rsquo;으로 진입하는 역사적 전환점을 맞이합니다.
             </p>
           </div>
 
@@ -215,21 +215,21 @@ export default function Home() {
               specialties={["치매 케어", "재활 보조"]}
               matchRate={98}
               location="서울시 서초구"
-              imgSrc="/Webpage_AI-Carelink/images/korean_specialist_main.jpg"
+              imgSrc="/images/korean_specialist_main.jpg"
             />
             <CaregiverProfileCard
               name="이정희"
               specialties={["욕창 관리", "식이 조절"]}
               matchRate={95}
               location="서울시 강남구"
-              imgSrc="/Webpage_AI-Carelink/images/caregiver_2.png"
+              imgSrc="/images/caregiver_2.png"
             />
             <CaregiverProfileCard
               name="박미숙"
               specialties={["정서 지원", "거동 보조"]}
               matchRate={92}
               location="서울시 송파구"
-              imgSrc="/Webpage_AI-Carelink/images/korean_caregiver_3_pink.png"
+              imgSrc="/images/korean_caregiver_3_pink.png"
             />
           </div>
 

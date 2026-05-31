@@ -21,7 +21,7 @@ export default function DailyReportPreview() {
                         AI 케어 요약
                     </h4>
                     <p className="text-gray-300 text-sm leading-relaxed">
-                        "어르신의 오늘 컨디션은 전반적으로 <span className="text-quantum font-bold">매우 양호</span>합니다. 오전 10시경 산책 중 평소보다 걸음걸이가 가벼우셨으며, 식사량도 평소의 1.2배로 증가했습니다. 다만, 오후에 약간의 미열(37.2도)이 관찰되었으니 저녁 시간대 모니터링이 필요합니다."
+                        &ldquo;어르신의 오늘 컨디션은 전반적으로 <span className="text-quantum font-bold">매우 양호</span>합니다. 오전 10시경 산책 중 평소보다 걸음걸이가 가벼우셨으며, 식사량도 평소의 1.2배로 증가했습니다. 다만, 오후에 약간의 미열(37.2도)이 관찰되었으니 저녁 시간대 모니터링이 필요합니다.&rdquo;
                     </p>
                 </div>
 
