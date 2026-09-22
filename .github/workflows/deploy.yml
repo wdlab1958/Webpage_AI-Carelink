@@ -1,13 +1,24 @@
-# 대문(www.ai-carelink.co.kr) — CI: 정적 export 빌드 검증만 수행.
-# 실제 배포는 가비아 서버에서 deployment/deploy-webpage.sh (git pull → build → nginx) 로 진행한다.
-# (가비아 방화벽이 SSH 를 회사 IP 로만 허용 → Actions 에서 서버 접속 불가)
-name: Build check (static export)
+# 대문(www.ai-carelink.co.kr) CI/CD
+#  1) 정적 export 빌드·린트 검증
+#  2) GitHub Pages 임시 미리보기 배포 → https://wdlab1958.github.io/Webpage_AI-Carelink/
+#     (운영 배포는 가비아 서버에서 deployment/deploy-webpage.sh — 방화벽이 회사 IP 만 SSH 허용)
+name: Build & deploy (GitHub Pages preview)
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -20,10 +31,25 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npm run build:static
-      - run: test -f out/index.html && test -f out/pilot-2026/index.html
-      - uses: actions/upload-artifact@v4
+      # 운영 루트 경로 빌드 검증 (가비아 배포 산출물과 동일)
+      - run: npm run build:static && test -f out/index.html && test -f out/pilot-2026/index.html
+      # GitHub Pages 용 (하위 경로 basePath) — 앱/백엔드 링크는 운영 도메인으로 고정
+      - run: rm -rf out && npm run build:ghpages
+        env:
+          NEXT_PUBLIC_APP_URL: https://app.ai-carelink.co.kr
+          NEXT_PUBLIC_API_URL: https://api.ai-carelink.co.kr
+      - run: touch out/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: www-static-export
           path: out
-          retention-days: 7
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

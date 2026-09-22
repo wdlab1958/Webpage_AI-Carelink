@@ -5,6 +5,11 @@
 // 개발(next dev)·일반 build 는 서버 모드.
 const isStaticExport = process.env.STATIC_EXPORT === '1';
 
+// GitHub Pages(임시 미리보기) 배포: https://wdlab1958.github.io/Webpage_AI-Carelink/
+//   GITHUB_PAGES=1 → 하위 경로(basePath) 로 빌드. 운영(www.ai-carelink.co.kr)은 루트 경로라 미설정.
+const isGithubPages = process.env.GITHUB_PAGES === '1';
+const GH_BASE_PATH = '/Webpage_AI-Carelink';
+
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -20,6 +25,7 @@ const nextConfig = {
 
   // 정적 export 시 /pilot-2026/ → out/pilot-2026/index.html 로 생성되어 file_server 가 그대로 서빙
   ...(isStaticExport ? { output: 'export', trailingSlash: true } : {}),
+  ...(isGithubPages ? { basePath: GH_BASE_PATH, assetPrefix: GH_BASE_PATH } : {}),
 
   // LAN(집 192.168.45.206 / 회사 10.10.10.64)에서 dev 서버 접속 시 Next 16 cross-origin 허용
   allowedDevOrigins: [
