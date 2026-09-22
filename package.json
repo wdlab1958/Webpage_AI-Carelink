@@ -1,11 +1,12 @@
 {
-  "name": "web_site_carelinl",
+  "name": "aicarelink-webpage",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3002 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "build:static": "STATIC_EXPORT=1 next build",
+    "start": "next start -p 3002",
     "lint": "eslint"
   },
   "dependencies": {
@@ -18,7 +19,10 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "eslint": "^9",
-    "eslint-config-next": "16.1.1"
+    "eslint-config-next": "16.1.1",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3"
   }
 }

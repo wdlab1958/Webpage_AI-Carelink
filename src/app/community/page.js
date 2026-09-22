@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, User, Star, Heart, Building2, ShoppingBag, Smartphone, Search, ThumbsUp, MessageSquare, X, Calendar } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 // Mock Data Categories
 const CATEGORIES = [
@@ -269,8 +267,6 @@ export default function Community() {
 
     return (
         <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-            <Navbar />
-
             {/* Ambient Background */}
             <div className="fixed top-[-20%] right-[-20%] w-[60%] h-[60%] bg-emerald-900 blur-[150px] opacity-20 rounded-full z-[-1] pointer-events-none" />
             <div className="fixed bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-900 blur-[150px] opacity-20 rounded-full z-[-1] pointer-events-none" />
@@ -378,7 +374,6 @@ export default function Community() {
                     </div>
                 </section>
             </main>
-            <Footer />
 
             {/* Detail Modal */}
             <AnimatePresence>

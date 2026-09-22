@@ -1,75 +1,67 @@
-# AI CareLink - AI 기반 노인 돌봄 매칭 플랫폼
+# AI CareLink — 대문 (www.ai-carelink.co.kr)
 
-> 최종 수정일: 2026년 1월 10일
+> 최종 수정일: 2026년 9월 23일
 
 ## 프로젝트 소개
 
-AI CareLink는 AI 기반 노인 돌봄 매칭 플랫폼입니다. 환자/보호자, 간병인, 병원 관리자, 쇼핑몰, 플랫폼 관리자 5개 이해관계자를 연결합니다.
+AI CareLink 플랫폼의 진입 페이지(대문)입니다. 플랫폼 관리자 / 요양병원 / 쇼핑몰 / 간병인 / 환자·보호자 5개 도메인과
+환자·보호자 앱 · 간병인 앱(Android PWA)을 소개하고, 2026~2027 요양급여 제도 변화(요양병원 간병 급여화 · 간병지원 시범사업)와
+한국보훈복지의료공단 AI 의료 솔루션 실증 테스트베드 연계 제안을 정리해 보여줍니다.
 
-- 웹사이트: [ai-carelink.kr](https://ai-carelink.kr)
-- 2026년 하반기 정부 시범사업 200개 병원 타겟
+| 호스트 | 역할 |
+|---|---|
+| `www.ai-carelink.co.kr` | 대문 (본 저장소, 정적 export) |
+| `app.ai-carelink.co.kr` | 플랫폼 전체 (AiCarelink/frontend, Next.js 14) — 5개 도메인 + 모바일 앱 2종 |
+| `api.ai-carelink.co.kr` | 백엔드 (AiCarelink/backend, FastAPI) |
 
 ## 기술 스택
 
-- **프레임워크**: Next.js 16.1.1
-- **라이브러리**: React 19.2.3
-- **스타일링**: Tailwind CSS
-- **애니메이션**: Framer Motion
-- **아이콘**: Lucide React
-
-## 주요 기능
-
-- 반응형 디자인 (모바일/태블릿/데스크톱)
-- 애니메이션 및 글래스모피즘 UI
-- 접근성 도구 (글꼴 크기, 고대비 모드)
-- 쿠키 동의 시스템
+- Next.js 16.1.1 (App Router) · React 19.2.3 · Framer Motion · Lucide React
+- 스타일: `src/app/globals.css` 에 유틸리티 클래스를 직접 정의 (Tailwind 패키지 미사용)
+- 운영: `npm run build:static` → `out/` 정적 export → nginx (`deployment/`)
 
 ## 페이지 구성
 
 | 경로 | 설명 |
 |------|------|
-| `/` | 메인 랜딩 페이지 |
+| `/` | 메인 랜딩 — 5개 도메인 · 모바일 앱 2종 · 급여화 로드맵 · 보훈공단 실증 · 핵심 기능 |
+| `/pilot-2026` | 요양급여 제도 변화(2024→2027) · 제도 요건 · 대응 기능 매핑 · 보훈공단 AI 테스트베드 실증 제안 · 출처 |
 | `/service-intro` | 서비스 소개 |
 | `/ai-matching` | AI 매칭 설명 |
 | `/community` | 커뮤니티 |
-| `/login` | 로그인 |
-| `/signup` | 회원가입 |
-| `/mypage` | 마이페이지 |
-| `/terms` | 이용약관 |
-| `/privacy` | 개인정보처리방침 |
-| `/ai-ethics` | AI 윤리 및 투명성 |
+| `/login` `/signup` `/mypage` | 플랫폼(app)으로 리다이렉트 — 인증·회원 기능은 app 도메인에서 처리 |
+| `/terms` `/privacy` `/ai-ethics` | 이용약관 · 개인정보처리방침 · AI 윤리 |
+
+## 앱 / 백엔드 라우팅 (집 · 회사 · 운영 자동 전환)
+
+`src/lib/hosts.js` 가 **접속한 호스트**를 기준으로 앱/백엔드 주소를 유도합니다. 설정 변경 없이 어디서나 동작합니다.
+
+| 대문 접속 | 앱(FE) | 백엔드(BE) |
+|---|---|---|
+| `localhost:3002` | `localhost:3001` | `localhost:8001` |
+| `192.168.45.206:3002` (집) | `192.168.45.206:3001` | `192.168.45.206:8001` |
+| `10.10.10.64:3002` (회사) | `10.10.10.64:3001` | `10.10.10.64:8001` |
+| `www.ai-carelink.co.kr` | `app.ai-carelink.co.kr` | `api.ai-carelink.co.kr` |
+
+포트는 `.env.local` 의 `NEXT_PUBLIC_APP_PORT` / `NEXT_PUBLIC_API_PORT`, 절대 URL 강제는 `NEXT_PUBLIC_APP_URL` / `NEXT_PUBLIC_API_URL`.
+컴포넌트에서는 `<AppLink to="/dashboard/patient/mobile">` 또는 `useTargets()` 를 사용합니다.
 
 ## 시작하기
 
-### 개발 서버 실행
-
 ```bash
-npm run dev
-# 또는
-yarn dev
-# 또는
-pnpm dev
+npm install
+npm run dev            # http://localhost:3002  (LAN: http://192.168.45.206:3002)
+npm run lint
+npm run build:static   # out/ — 운영 배포 산출물
 ```
 
-[http://localhost:3000](http://localhost:3000)에서 확인할 수 있습니다.
-
-### 빌드
-
-```bash
-npm run build
-npm run start
-```
+배포 절차는 [`deployment/README.md`](deployment/README.md) 참조 (집/회사 → GitHub push → 가비아 서버 pull·빌드).
 
 ## 법적 컴플라이언스
 
 - 인공지능 기본법 (2026.1.22 시행) 준수
-- 개인정보보호법 준수
+- 개인정보보호법 · 민감정보(건강정보) 별도 동의
 - KWCAG 2.2 웹 접근성 표준 준수
-
-## 참고 문서
-
-- `Carelink 2026.txt` - 프로젝트 개선 계획서
-- `update_carelink_소비자보호.txt` - 홈페이지 업데이트 보고서
 
 ---
 

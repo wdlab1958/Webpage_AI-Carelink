@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion';
 import { Brain, ChevronRight, Eye, Scale, Users, AlertTriangle, RefreshCw, MessageSquare, ShieldCheck, Cpu, Heart, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function AIEthicsPage() {
   const aiFactors = [
@@ -20,8 +18,6 @@ export default function AIEthicsPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Background - simplified for performance */}
       <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 z-[-1]" />
-
-      <Navbar />
 
       <main className="pt-32 pb-20">
         <div className="container max-w-4xl">
@@ -399,14 +395,13 @@ export default function AIEthicsPage() {
               AI 시스템 관련 문의사항이나 이의제기가 있으시면 언제든지 연락해 주세요.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <span className="text-gray-300">이메일: ai-ethics@ai-carelink.kr</span>
+              <span className="text-gray-300">이메일: ai-ethics@ai-carelink.co.kr</span>
               <span className="text-gray-300">전화: 02-XXXX-XXXX</span>
             </div>
           </motion.div>
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

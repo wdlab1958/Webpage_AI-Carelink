@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Heart, Building2, ShoppingBag, Activity, FileText, CheckCircle, Smartphone, Settings, Monitor } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function AiMatching() {
     const [activeWorkflowTab, setActiveWorkflowTab] = useState('patient');
@@ -24,8 +22,6 @@ export default function AiMatching() {
 
     return (
         <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-            <Navbar />
-
             {/* Ambient Background */}
             <div className="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] bg-purple-900 blur-[150px] opacity-20 rounded-full z-[-1]" />
             <div className="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900 blur-[150px] opacity-20 rounded-full z-[-1]" />
@@ -239,7 +235,6 @@ export default function AiMatching() {
                 </section>
             </main>
 
-            <Footer />
         </div>
     );
 }

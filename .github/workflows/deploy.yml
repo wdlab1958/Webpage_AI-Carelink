@@ -1,17 +1,13 @@
-name: Deploy to GitHub Pages
+# 대문(www.ai-carelink.co.kr) — CI: 정적 export 빌드 검증만 수행.
+# 실제 배포는 가비아 서버에서 deployment/deploy-webpage.sh (git pull → build → nginx) 로 진행한다.
+# (가비아 방화벽이 SSH 를 회사 IP 로만 허용 → Actions 에서 서버 접속 불가)
+name: Build check (static export)
 
 on:
   push:
     branches: [main]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -20,20 +16,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm run lint
+      - run: npm run build:static
+      - run: test -f out/index.html && test -f out/pilot-2026/index.html
+      - uses: actions/upload-artifact@v4
         with:
+          name: www-static-export
           path: out
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          retention-days: 7

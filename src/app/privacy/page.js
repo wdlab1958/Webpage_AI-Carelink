@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion';
 import { Shield, ChevronRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function PrivacyPage() {
   const sections = [
@@ -213,12 +211,12 @@ export default function PrivacyPage() {
 ■ 개인정보 보호책임자
 • 성명: [개인정보보호책임자명]
 • 직책: [직책]
-• 연락처: privacy@ai-carelink.kr
+• 연락처: privacy@ai-carelink.co.kr
 • 전화: 02-XXXX-XXXX
 
 ■ 개인정보 보호 담당부서
 • 부서명: 개인정보보호팀
-• 연락처: privacy@ai-carelink.kr
+• 연락처: privacy@ai-carelink.co.kr
 
 ② 정보주체께서는 회사의 서비스를 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다.`
     },
@@ -261,8 +259,6 @@ export default function PrivacyPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Background - simplified for performance */}
       <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 z-[-1]" />
-
-      <Navbar />
 
       <main className="pt-32 pb-20">
         <div className="container max-w-4xl">
@@ -368,13 +364,12 @@ export default function PrivacyPage() {
               개인정보 관련 문의사항이 있으시면 개인정보보호 책임자에게 연락해 주시기 바랍니다.
             </p>
             <p className="text-gray-500 text-xs mt-2">
-              이메일: privacy@ai-carelink.kr | 전화: 02-XXXX-XXXX
+              이메일: privacy@ai-carelink.co.kr | 전화: 02-XXXX-XXXX
             </p>
           </motion.div>
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

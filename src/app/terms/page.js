@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion';
 import { FileText, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function TermsPage() {
   const sections = [
@@ -123,8 +121,6 @@ export default function TermsPage() {
       {/* Background - simplified for performance */}
       <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 z-[-1]" />
 
-      <Navbar />
-
       <main className="pt-32 pb-20">
         <div className="container max-w-4xl">
           <motion.div
@@ -220,7 +216,6 @@ export default function TermsPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }
