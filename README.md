@@ -38,9 +38,9 @@ AI CareLink 플랫폼의 진입 페이지(대문)입니다. 플랫폼 관리자 
 
 | 대문 접속 | 앱(FE) | 백엔드(BE) |
 |---|---|---|
-| `localhost:3002` | `localhost:3001` | `localhost:8001` |
-| `192.168.45.206:3002` (집) | `192.168.45.206:3001` | `192.168.45.206:8001` |
-| `10.10.10.64:3002` (회사) | `10.10.10.64:3001` | `10.10.10.64:8001` |
+| `localhost:3002` | `localhost:3001` | `localhost:8100` |
+| `192.168.45.206:3002` (집) | `192.168.45.206:3001` | `192.168.45.206:8100` |
+| `10.10.10.64:3002` (회사) | `10.10.10.64:3001` | `10.10.10.64:8100` |
 | `www.ai-carelink.co.kr` | `app.ai-carelink.co.kr` | `api.ai-carelink.co.kr` |
 
 포트는 `.env.local` 의 `NEXT_PUBLIC_APP_PORT` / `NEXT_PUBLIC_API_PORT`, 절대 URL 강제는 `NEXT_PUBLIC_APP_URL` / `NEXT_PUBLIC_API_URL`.

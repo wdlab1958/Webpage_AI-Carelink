@@ -12,7 +12,7 @@ import { DEFAULT_TARGETS, PROD_DOMAIN, PROD_WWW_URL, PROD_APP_URL, PROD_API_URL,
 
 export { PROD_DOMAIN, PROD_WWW_URL, PROD_APP_URL, PROD_API_URL, APP_PATHS };
 
-// 백엔드 API (FastAPI) — 기본 localhost:8001 (NEXT_PUBLIC_API_PORT / NEXT_PUBLIC_API_URL 로 변경)
+// 백엔드 API (FastAPI) — 기본 localhost:8100 (NEXT_PUBLIC_API_PORT / NEXT_PUBLIC_API_URL 로 변경)
 export const API_BASE_URL = DEFAULT_TARGETS.apiUrl;
 
 // 메인 애플리케이션 (Next.js) — 기본 localhost:3001 → 운영 app.ai-carelink.co.kr

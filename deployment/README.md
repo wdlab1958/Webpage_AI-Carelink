@@ -10,7 +10,7 @@
 | `www.ai-carelink.co.kr` | 대문 · 소개 · 요양급여/시범사업 · 보훈공단 실증 제안 (본 저장소) | 정적 export → nginx `root` |
 | `ai-carelink.co.kr` | → www 301 | nginx |
 | `app.ai-carelink.co.kr` | 플랫폼 5개 도메인 + 환자·보호자 앱 + 간병인 앱 (AiCarelink/frontend) | Next.js :3001 프록시 |
-| `api.ai-carelink.co.kr` | FastAPI 백엔드 (AiCarelink/backend) | :8001 프록시 (서버 실제 포트에 맞게 조정) |
+| `api.ai-carelink.co.kr` | FastAPI 백엔드 (AiCarelink/backend) | :8100 프록시 (서버 실제 포트에 맞게 조정) |
 
 DNS(가비아 DNS 관리): A 레코드 `@`, `www`, `app`, `api` → 서버 공인 IP.
 
@@ -47,5 +47,5 @@ npm run build:static     # out/ 생성 (운영과 동일한 정적 산출물 확
 ```
 
 앱/백엔드 링크는 접속한 호스트 기준으로 자동 유도된다 (`src/lib/hosts.js`):
-`localhost` → `:3001/:8001`, `192.168.45.206` → `192.168.45.206:3001/:8001`, `10.10.10.64` → `10.10.10.64:3001/:8001`,
+`localhost` → `:3001/:8100`, `192.168.45.206` → `192.168.45.206:3001/:8100`, `10.10.10.64` → `10.10.10.64:3001/:8100`,
 `*.ai-carelink.co.kr` → `app.` / `api.`. 포트는 `.env.local` 의 `NEXT_PUBLIC_APP_PORT` / `NEXT_PUBLIC_API_PORT` 로 변경.

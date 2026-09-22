@@ -8,9 +8,9 @@
    ┌──────────────────────────────┬──────────────────────────────┬──────────────────────────────┐
    │ 대문 접속 호스트              │ 앱(FE)                        │ 백엔드(BE)                    │
    ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-   │ localhost:3002               │ http://localhost:3001         │ http://localhost:8001         │
-   │ 192.168.45.206:3002 (집)     │ http://192.168.45.206:3001    │ http://192.168.45.206:8001    │
-   │ 10.10.10.64:3002 (회사)      │ http://10.10.10.64:3001       │ http://10.10.10.64:8001       │
+   │ localhost:3002               │ http://localhost:3001         │ http://localhost:8100         │
+   │ 192.168.45.206:3002 (집)     │ http://192.168.45.206:3001    │ http://192.168.45.206:8100    │
+   │ 10.10.10.64:3002 (회사)      │ http://10.10.10.64:3001       │ http://10.10.10.64:8100       │
    │ www.ai-carelink.co.kr (운영) │ https://app.ai-carelink.co.kr │ https://api.ai-carelink.co.kr │
    └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
 
@@ -25,9 +25,9 @@ export const PROD_WWW_URL = `https://www.${PROD_DOMAIN}`;
 export const PROD_APP_URL = `https://app.${PROD_DOMAIN}`;
 export const PROD_API_URL = `https://api.${PROD_DOMAIN}`;
 
-// 로컬/LAN 개발 포트 — 집·회사 공통 (FE 3001 / BE 8001). 환경변수로 덮어쓸 수 있다.
+// 로컬/LAN 개발 포트 — 집·회사 공통 (FE 3001 / BE 8100, run_all_projects.sh 할당과 동일). 환경변수로 덮어쓸 수 있다.
 export const DEV_APP_PORT = Number(process.env.NEXT_PUBLIC_APP_PORT) || 3001;
-export const DEV_API_PORT = Number(process.env.NEXT_PUBLIC_API_PORT) || 8001;
+export const DEV_API_PORT = Number(process.env.NEXT_PUBLIC_API_PORT) || 8100;
 export const DEV_WWW_PORT = Number(process.env.NEXT_PUBLIC_WWW_PORT) || 3002;
 
 const ENV_APP_URL = (process.env.NEXT_PUBLIC_APP_URL || '').trim();

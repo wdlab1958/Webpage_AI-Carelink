@@ -87,13 +87,13 @@ echo -e "${BLUE}── 환경 변수 ──────────────�
 if [ -f .env.local ]; then
   echo -e "${GREEN}[OK] .env.local 존재${NC}"
   echo ""
-  echo "  NEXT_PUBLIC_API_URL = ${NEXT_PUBLIC_API_URL:-http://localhost:8001}"
+  echo "  NEXT_PUBLIC_API_URL = ${NEXT_PUBLIC_API_URL:-http://localhost:8100}"
   echo "  NEXT_PUBLIC_APP_URL = ${NEXT_PUBLIC_APP_URL:-http://localhost:3001}"
   echo "  NEXT_PUBLIC_WWW_URL = ${NEXT_PUBLIC_WWW_URL:-http://localhost:3002}"
 else
   echo -e "${YELLOW}[INFO] .env.local 자동 생성됨${NC}"
   cat > .env.local << 'EOF'
-NEXT_PUBLIC_API_URL=http://localhost:8001
+NEXT_PUBLIC_API_URL=http://localhost:8100
 NEXT_PUBLIC_APP_URL=http://localhost:3001
 NEXT_PUBLIC_WWW_URL=http://localhost:3002
 NEXT_PUBLIC_ENV=development
@@ -109,7 +109,7 @@ echo ""
 echo -e "  ${GREEN}# 1. 백엔드 서버 실행 (별도 터미널)${NC}"
 echo -e "  cd ~/ai_project/AiCarelink/backend"
 echo -e "  source venv/bin/activate"
-echo -e "  uvicorn app.main:app --reload --host 0.0.0.0 --port 8001"
+echo -e "  uvicorn app.main:app --reload --host 0.0.0.0 --port 8100"
 echo ""
 echo -e "  ${GREEN}# 2. 메인 앱 실행 (별도 터미널)${NC}"
 echo -e "  cd ~/ai_project/AiCarelink/frontend"
@@ -127,7 +127,7 @@ echo ""
 echo "  로컬 개발 (포트 기반):"
 echo -e "    ${GREEN}대문 페이지:${NC}  http://localhost:3002"
 echo -e "    ${GREEN}메인 앱:${NC}      http://localhost:3001"
-echo -e "    ${GREEN}백엔드 API:${NC}   http://localhost:8001/docs"
+echo -e "    ${GREEN}백엔드 API:${NC}   http://localhost:8100/docs"
 echo ""
 echo "  로컬 개발 (도메인 기반 — /etc/hosts 설정 후):"
 echo -e "    ${GREEN}대문 페이지:${NC}  http://www.ai-carelink.co.kr:3002"
