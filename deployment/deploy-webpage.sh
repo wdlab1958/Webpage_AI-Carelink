@@ -3,18 +3,18 @@
 # 대문(www.ai-carelink.co.kr) 배포 — 가비아 서버에서 실행
 #
 #   집/회사  →  git commit & push (GitHub: wdlab1958/Webpage_AI-Carelink)
-#   가비아   →  bash /opt/aicarelink-webpage/repo/deployment/deploy-webpage.sh
+#   가비아   →  bash ~/AiCarelink-Webpage/repo/deployment/deploy-webpage.sh
 #
-# 동작: git pull → npm ci → 정적 export(out/) → /opt/aicarelink-webpage/releases/<sha> →
+# 동작: git pull → npm ci → 정적 export(out/) → ~/AiCarelink-Webpage/releases/<sha> →
 #       current 심볼릭 링크 교체(원자적) → nginx reload → 이전 릴리스 5개만 보존
-# 롤백: ln -sfn /opt/aicarelink-webpage/releases/<이전 sha> /opt/aicarelink-webpage/current && nginx -s reload
+# 롤백: ln -sfn ~/AiCarelink-Webpage/releases/<이전 sha> ~/AiCarelink-Webpage/current && nginx -s reload
 #
-# 환경변수: DEPLOY_ROOT(기본 /opt/aicarelink-webpage), BRANCH(기본 main),
+# 환경변수: DEPLOY_ROOT(기본 $HOME/AiCarelink-Webpage), BRANCH(기본 main),
 #           NEXT_PUBLIC_APP_URL / NEXT_PUBLIC_API_URL (기본: 도메인 자동 유도 → 생략 가능)
 # ═══════════════════════════════════════════════════════════════════════════
 set -euo pipefail
 
-DEPLOY_ROOT="${DEPLOY_ROOT:-/opt/aicarelink-webpage}"
+DEPLOY_ROOT="${DEPLOY_ROOT:-$HOME/AiCarelink-Webpage}"
 REPO_DIR="$DEPLOY_ROOT/repo"
 BRANCH="${BRANCH:-main}"
 REPO_URL="${REPO_URL:-https://github.com/wdlab1958/Webpage_AI-Carelink.git}"

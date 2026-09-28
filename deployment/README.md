@@ -65,7 +65,7 @@ server {
 ```bash
 # 1. 소스 받기 + 첫 빌드 (repo/ 가 없으면 스크립트가 clone 한다)
 curl -fsSL -o /tmp/deploy-webpage.sh https://raw.githubusercontent.com/wdlab1958/Webpage_AI-Carelink/main/deployment/deploy-webpage.sh
-DEPLOY_ROOT=$HOME/AiCarelink-Webpage bash /tmp/deploy-webpage.sh
+bash /tmp/deploy-webpage.sh
 
 # 2. nginx 대문 블록 설치
 sudo install -m 644 ~/AiCarelink-Webpage/repo/deployment/nginx/ai-carelink-www.conf /etc/nginx/sites-available/ai-carelink-www
@@ -77,7 +77,8 @@ chmod o+x /home/wdlab
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-`DEPLOY_ROOT` 를 빼면 스크립트 기본값 `/opt/aicarelink-webpage` 로 배포를 시도하므로 반드시 지정한다.
+배포 경로는 스크립트 기본값 `$HOME/AiCarelink-Webpage` 를 쓴다. 다른 위치에 배포할 때만 `DEPLOY_ROOT` 로 지정한다
+(nginx `root` 도 함께 바꿔야 한다).
 
 ## 매 배포
 
@@ -86,7 +87,7 @@ sudo nginx -t && sudo systemctl reload nginx
 git add -A && git commit -m "..." && git push origin main
 
 # 가비아 (SSH: 회사 22 또는 우회 포트 2222)
-DEPLOY_ROOT=$HOME/AiCarelink-Webpage bash ~/AiCarelink-Webpage/repo/deployment/deploy-webpage.sh
+bash ~/AiCarelink-Webpage/repo/deployment/deploy-webpage.sh
 ```
 
 롤백: `ln -sfn ~/AiCarelink-Webpage/releases/<이전> ~/AiCarelink-Webpage/current && sudo nginx -s reload`
