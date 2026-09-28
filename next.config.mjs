@@ -27,12 +27,13 @@ const nextConfig = {
   ...(isStaticExport ? { output: 'export', trailingSlash: true } : {}),
   ...(isGithubPages ? { basePath: GH_BASE_PATH, assetPrefix: GH_BASE_PATH } : {}),
 
-  // LAN(집 192.168.45.206 / 회사 10.10.10.64)에서 dev 서버 접속 시 Next 16 cross-origin 허용
+  // LAN(집 192.168.45.206 / 회사 10.10.10.64 · Wi-Fi 192.168.0.27)에서 dev 서버 접속 시 Next 16 cross-origin 허용
   allowedDevOrigins: [
     'localhost',
     '127.0.0.1',
     '192.168.45.206',
     '10.10.10.64',
+    '192.168.0.27',
     '*.ai-carelink.co.kr',
   ],
 
