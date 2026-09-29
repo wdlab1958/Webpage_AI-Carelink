@@ -1,6 +1,6 @@
 # 배포 — www.ai-carelink.co.kr (대문)
 
-기준일 2026-09-28. PatentForge 와 같은 방식: **집/회사 → GitHub push → 가비아 서버에서 pull·빌드**.
+기준일 2026-09-29. PatentForge 와 같은 방식: **집/회사 → GitHub push → 가비아 서버에서 pull·빌드**.
 (가비아 방화벽이 SSH 를 회사 IP 로만 허용하므로 GitHub Actions 가 서버로 직접 SSH 하는 방식은 쓰지 않는다.)
 
 ## 도메인 구성 (목표)
@@ -17,26 +17,31 @@ app/api 컨테이너 기동·배포 절차: AiCarelink 저장소 `docs/launch/PI
 
 DNS(가비아 DNS 관리): A 레코드 `@`, `www`, `app`, `api` → 서버 공인 IP.
 
-## 현재 서버 상태 (2026-09-28)
+## 현재 서버 상태 (2026-09-29)
 
-서버: 가비아 클라우드 · Ubuntu 22.04 · 호스트 nginx 1.18 (`sites-available` / `sites-enabled` 방식) · 계정 `wdlab`.
+서버: 가비아 클라우드 103.55.190.5 · Ubuntu 22.04 · 호스트 nginx 1.18 (`sites-available` / `sites-enabled` 방식) · 계정 `wdlab`.
 외부에서 열린 포트는 22 / 80 / 443 뿐이다 (3000 · 8100 은 방화벽 차단 → nginx 경유로만 접근).
 
 | 접속 | 응답 | nginx 파일 |
 |---|---|---|
-| `http://www.ai-carelink.co.kr` | 대문 (정적) | `sites-available/ai-carelink-www` ← [`nginx/ai-carelink-www.conf`](nginx/ai-carelink-www.conf) |
-| `http://ai-carelink.co.kr` | → www 301 | 위와 같음 |
-| `http://<서버 공인 IP>` | 메인 앱 (:3000) | `sites-available/ai-carelink` (`default_server`, 아래 참고) |
+| `https://www.ai-carelink.co.kr` | 대문 (정적) | `sites-available/ai-carelink.co.kr` ← [`nginx/ai-carelink.co.kr.conf`](nginx/ai-carelink.co.kr.conf) |
+| `https://ai-carelink.co.kr` | → www 301 | 위와 같음 |
+| `https://app.` / `https://api.ai-carelink.co.kr` | 플랫폼 / 백엔드 | 위와 같음 |
+| `http://<도메인>` | → https 301 (ACME 챌린지 경로만 예외) | 위와 같음 |
+| `http://<서버 공인 IP>` | 구버전 메인 앱 (:3000) | `sites-available/ai-carelink` (`default_server`, 아래 참고) |
+| `ssh -p 443` | sshd (22 와 동일) | `stream.d/mux-443.conf` |
 
 배포 경로는 홈 폴더다: `~/AiCarelink-Webpage/` = `repo/`(소스) · `releases/<sha>-<시각>/`(산출물) · `current`(심볼릭 링크).
 
-아직 안 된 것:
+HTTPS 는 2026-09-29 개통했다. **443 은 SSH 와 공유**한다 — nginx stream(`ssl_preread`)이 첫 패킷을 보고
+TLS 는 `127.0.0.1:8443`(HTTPS server 블록), 그 외는 sshd 로 넘긴다. 그래서 이 서버에서는
 
-- **DNS 미등록** — 도메인 소유권 이전이 끝난 뒤 A 레코드를 등록해야 실제 주소로 열린다.
-  그 전에는 `curl --resolve www.ai-carelink.co.kr:80:<서버 공인 IP> http://www.ai-carelink.co.kr/` 로 확인한다.
-- **HTTPS 없음** — certbot 미설치, 인증서 미발급.
-- **`app.` / `api.` 블록 없음** — 대문의 앱 링크는 운영 도메인에서 `https://app.` / `https://api.` 로 연결되므로
-  (`src/lib/hosts.js`) HTTPS 전환 전까지 동작하지 않는다.
+- HTTPS server 블록에 `listen 443 ssl` 을 쓰지 않는다 → `include snippets/ai-carelink-ssl.conf;`
+- `certbot --nginx` 를 쓰지 않는다 (`listen 443 ssl` 을 자동 삽입해 bind 충돌) → webroot(`/var/www/acme`) 발급,
+  `certbot.timer` 자동 갱신, deploy hook 이 `/etc/nginx/ssl/` 로 복사 후 reload
+- 443 경유 SSH 의 실제 접속 IP 는 sshd 로그가 아니라 `/var/log/nginx/mux-443.log` 에 남는다
+
+구성 스크립트·스니펫은 AiCarelink 저장소 `ops/nginx/mux-443/` · `ops/nginx/https/` 에 있다.
 
 메인 앱 블록 (`sites-available/ai-carelink`, AiCarelink 프로젝트 소유 — 참고용):
 
@@ -95,29 +100,21 @@ bash ~/AiCarelink-Webpage/repo/deployment/deploy-webpage.sh
 
 롤백: `ln -sfn ~/AiCarelink-Webpage/releases/<이전> ~/AiCarelink-Webpage/current && sudo nginx -s reload`
 
-## app·api 추가 + HTTPS 전환 (DNS 등록 완료 — 2026-09-28)
+## nginx 구성 갱신 (4개 호스트)
 
-[`nginx/ai-carelink.co.kr.conf`](nginx/ai-carelink.co.kr.conf) 는 루트 · www · app · api 4개 호스트 전체의 정본이며
-**HTTP 전용으로 작성**돼 있다 → 인증서 없이도 `nginx -t` 가 통과하고, `certbot --nginx` 가 443 블록·인증서·
-http→https 리다이렉트를 자동으로 삽입한다. (app/api 컨테이너가 먼저 떠 있어야 app/api 가 502 가 아니다 — 순서는 PILOT_DEPLOY_GABIA.md)
+[`nginx/ai-carelink.co.kr.conf`](nginx/ai-carelink.co.kr.conf) 는 루트 · www · app · api 4개 호스트 전체의 정본이다.
+인증서·443 공유 구성은 이미 서버에 있으므로 conf 를 바꾼 뒤에는 아래만 실행한다
+(app/api 컨테이너가 떠 있어야 app/api 가 502 가 아니다 — 순서는 AiCarelink `docs/launch/PILOT_DEPLOY_GABIA.md`).
 
 ```bash
 cd ~/AiCarelink-Webpage/repo && git pull --ff-only
-# 1. HTTP 4개 호스트 구성으로 교체 (www 전용 블록은 server_name 이 겹치므로 비활성화)
-sudo rm /etc/nginx/sites-enabled/ai-carelink-www
+sudo install -m 644 deployment/nginx/snippets/carelink-api-proxy.conf /etc/nginx/snippets/
 sudo install -m 644 deployment/nginx/ai-carelink.co.kr.conf /etc/nginx/sites-available/ai-carelink.co.kr
 sudo ln -sfn /etc/nginx/sites-available/ai-carelink.co.kr /etc/nginx/sites-enabled/ai-carelink.co.kr
-sudo mkdir -p /etc/nginx/snippets && sudo install -m 644 deployment/nginx/snippets/carelink-api-proxy.conf /etc/nginx/snippets/
 sudo nginx -t && sudo systemctl reload nginx
-
-# 2. 인증서 발급 + 설치 (가비아 방화벽 80/443 전체 허용 필요)
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx --redirect -d ai-carelink.co.kr -d www.ai-carelink.co.kr \
-     -d app.ai-carelink.co.kr -d api.ai-carelink.co.kr -m wdlab1958@gmail.com --agree-tos -n
 ```
 
-certbot 이 `sites-available/ai-carelink.co.kr` 을 직접 수정한다. 이후 저장소 conf 로 다시 교체하면 TLS 설정이 빠지므로
-교체 뒤 같은 `certbot --nginx ...` 를 다시 실행한다 (인증서는 재발급되지 않고 설치만 다시 된다).
+서버를 새로 구성할 때(인증서·443 공유부터)는 AiCarelink 저장소의 `ops/nginx/https/run-all.sh` 를 먼저 실행한다.
 
 compose 스택의 nginx 컨테이너(`ops/docker-compose.prod.yml`)를 쓰는 경우에는 conf 를 `AiCarelink/ops/nginx/` 에 두고
 `~/AiCarelink-Webpage/current` 를 컨테이너에 `:ro` 볼륨으로 마운트한 뒤 업스트림 포트를 compose 포트(frontend 3000 / backend 5005)로 맞춘다.
