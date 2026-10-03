@@ -80,6 +80,8 @@ export default function Footer() {
               <h4 className="text-sm font-semibold text-gray-300 mb-4">법적고지 · 지원</h4>
               <ul className="space-y-2.5">
                 <li><Link href="/terms" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">이용약관</Link></li>
+                <li><Link href="/ecommerce-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">전자상거래 고지 (중개·청약철회·환불)</Link></li>
+                <li><Link href="/location-service-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용자 고지</Link></li>
                 <li><Link href="/privacy" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">개인정보처리방침</Link></li>
                 <li><Link href="/ai-ethics" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">AI 윤리 · 투명성</Link></li>
                 <li>
