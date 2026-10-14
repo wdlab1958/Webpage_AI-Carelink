@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { Shield, ChevronRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function PrivacyV1Page() {
+export default function PrivacyV1Page({ current = false } = {}) {
+  // current=true: /privacy 게이트에서 현행 본문으로 렌더(자리표시자가 남은 v2.0 개정안 대신). false: 보존본(/privacy/history/v1.0)
   const sections = [
     {
       title: '제1조 (개인정보의 처리 목적)',
@@ -271,9 +272,7 @@ export default function PrivacyV1Page() {
             <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
               <Link href="/" className="hover:text-white transition-colors">홈</Link>
               <ChevronRight size={16} />
-              <Link href="/privacy" className="hover:text-white transition-colors">개인정보처리방침</Link>
-              <ChevronRight size={16} />
-              <span className="text-white">v1.0 (이전 버전)</span>
+              {current ? <span className="text-white">개인정보처리방침</span> : <><Link href="/privacy" className="hover:text-white transition-colors">개인정보처리방침</Link><ChevronRight size={16} /><span className="text-white">v1.0 (이전 버전)</span></>}
             </div>
 
             {/* Header */}
@@ -282,7 +281,7 @@ export default function PrivacyV1Page() {
                 <Shield className="text-blue-400 w-7 h-7" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold">개인정보처리방침 v1.0 (이전 버전)</h1>
+                <h1 className="text-4xl font-bold">{current ? '개인정보처리방침' : '개인정보처리방침 v1.0 (이전 버전)'}</h1>
                 <p className="text-gray-400 mt-1">AI CareLink 개인정보 보호정책</p>
               </div>
             </div>
@@ -309,7 +308,7 @@ export default function PrivacyV1Page() {
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-400">
                 <span>시행일: 2026년 1월 1일</span>
-                <span>버전: 1.0 (보존본 — 현행 방침은 <Link href="/privacy" className="text-purple-300 underline">여기</Link>)</span>
+                {current ? <span>버전: 1.0 (현행)</span> : <span>버전: 1.0 (보존본 — 현행 방침은 <Link href="/privacy" className="text-purple-300 underline">여기</Link>)</span>}
                 <span>최종 수정일: 2025년 12월 25일</span>
               </div>
             </div>

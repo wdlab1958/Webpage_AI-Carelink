@@ -8,7 +8,11 @@
 import { motion } from 'framer-motion';
 import { Shield, ChevronRight, AlertCircle, History } from 'lucide-react';
 import Link from 'next/link';
-import { APPENDIX, ARTICLES, PRIVACY_HISTORY, PRIVACY_META, SENSITIVE_BANNER } from '@/content/privacy-v2';
+import { APPENDIX, ARTICLES, PRIVACY_HISTORY, PRIVACY_META, SENSITIVE_BANNER, placeholders } from '@/content/privacy-v2';
+import PrivacyV1Page from './history/v1.0/page';
+
+// 작업서 지시: 자리표시자는 임의로 채우지 않는다 → 채워지기 전까지 공개 화면은 종전 v1.0 본문을 유지하고, v2.0 은 소스에만 둔다(P-01 재발 방지).
+const V2_READY = placeholders().length === 0;
 import { COMPANY } from '@/lib/company';
 
 const articleId = (title) => { const m = title.match(/^제(\d+)조/); return m ? `article-${m[1]}` : 'appendix'; };
@@ -37,6 +41,11 @@ function DataTable({ table }) {
 }
 
 export default function PrivacyPage() {
+  if (!V2_READY) return <PrivacyV1Page current />;
+  return <PrivacyV2Page />;
+}
+
+function PrivacyV2Page() {
   const meta = (
     <div className="flex flex-wrap gap-4 text-xs text-gray-400">
       <span>버전: {PRIVACY_META.version}</span>
