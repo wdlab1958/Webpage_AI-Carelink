@@ -144,15 +144,15 @@ export default function TermsV1Page() {
               </div>
               <div>
                 <h1 className="text-4xl font-bold">이용약관 v1.0 (종전)</h1>
-                <p className="text-gray-400 mt-1">AI CareLink 서비스 이용약관 — 2026-01-01 시행, 2026-11-16 v2.0 시행 전까지 적용</p>
+                <p className="text-gray-400 mt-1">AI CareLink 서비스 이용약관 — 2026-01-01 시행, 2027-01-01 v1.1 시행 전까지 적용</p>
               </div>
             </div>
 
             {/* Info Box */}
             <div className="p-6 glass rounded-2xl border border-white/10 mb-8">
               <p className="text-gray-300 text-sm leading-relaxed">
-                이 페이지는 종전 약관(v1.0)의 보존본입니다. 2026-10-14 게시된 개정 약관(v2.0)은 2026-11-16부터 시행되며, 시행 전까지는 이 약관이 적용됩니다.{' '}
-                <Link href="/terms" className="text-purple-300 underline">현행 공지 약관(v2.0) 보기</Link>
+                이 페이지는 종전 약관(v1.0)의 보존본입니다. 2026-12-01 공고되는 개정 약관(v1.1)은 2027-01-01부터 시행되며, 시행 전까지는 이 약관이 적용됩니다.{' '}
+                <Link href="/terms" className="text-purple-300 underline">개정 약관(v1.1) 보기</Link>
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-400">
                 <span>시행일: 2026년 1월 1일</span>

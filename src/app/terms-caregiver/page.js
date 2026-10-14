@@ -9,7 +9,7 @@ export default function CaregiverTermsPage() {
     <LegalDocument
       icon={FileText}
       title="간병인 이용약관"
-      subtitle="AI CareLink 간병인·병원동행 매니저 회원 이용약관 v1.0"
+      subtitle="AI CareLink 간병인·병원동행 매니저 회원 이용약관 v1.1"
       meta={CAREGIVER_TERMS_META}
       banner={{ tone: 'amber', title: '제정 약관 사전 공지', body: `이 약관(v${CAREGIVER_TERMS_META.version})은 ${CAREGIVER_TERMS_META.announcedAt}에 공고되었고 ${CAREGIVER_TERMS_META.effectiveAt}부터 시행됩니다. 간병인·병원동행 매니저 회원에게는 「서비스 이용약관」과 함께 이 약관이 적용됩니다. 시행일 전까지 거부 의사를 표시하지 않으면 동의한 것으로 보며, 동의하지 않는 회원은 이용계약을 해지할 수 있습니다.` }}
       chapters={CAREGIVER_TERMS_CHAPTERS}

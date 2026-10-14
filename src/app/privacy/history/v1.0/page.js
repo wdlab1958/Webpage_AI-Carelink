@@ -5,7 +5,7 @@ import { Shield, ChevronRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PrivacyV1Page({ current = false } = {}) {
-  // current=true: /privacy 게이트에서 현행 본문으로 렌더(자리표시자가 남은 v2.0 개정안 대신). false: 보존본(/privacy/history/v1.0)
+  // current=true: /privacy 게이트에서 현행 본문으로 렌더(자리표시자가 남은 v1.1 개정안 대신). false: 보존본(/privacy/history/v1.0)
   const sections = [
     {
       title: '제1조 (개인정보의 처리 목적)',

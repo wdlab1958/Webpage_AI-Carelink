@@ -10,7 +10,7 @@ export default function CaregiverPrivacyPage() {
     <LegalDocument
       icon={Shield}
       title="간병인 개인정보처리방침"
-      subtitle="AI CareLink 간병인·병원동행 매니저 회원용 v1.0 · 주식회사 에이쓰리시큐리티"
+      subtitle="AI CareLink 간병인·병원동행 매니저 회원용 v1.1 · 주식회사 에이쓰리시큐리티"
       meta={CAREGIVER_PRIVACY_META}
       banner={{ tone: 'purple', title: '간병인 회원 전용 안내', body: `이 방침은 간병인·병원동행 매니저 회원의 개인정보(자격·경력, 정산 계좌·소득 자료, 보호자에게 제공되는 항목, 보험·결격사유 확인, 위치정보, AI 추천 정렬)를 다룹니다. ${CAREGIVER_PRIVACY_META.announcedAt} 공고, ${CAREGIVER_PRIVACY_META.effectiveAt} 시행. 처리 위탁·국외 이전·안전조치 등 회사 공통 사항은 통합 개인정보처리방침을 따릅니다.` }}
       chapters={CAREGIVER_PRIVACY_CHAPTERS}

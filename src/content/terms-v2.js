@@ -1,12 +1,12 @@
 /**
- * AI CareLink 서비스 이용약관 v2.0 — 개정 지시서 AICL-TERMS-REV-2026-10 §5 전문.
+ * AI CareLink 서비스 이용약관 v1.1 — 개정 지시서 AICL-TERMS-REV-2026-10 §5 전문.
  * 자리표시자는 2026-10-14 확정 사업자 정보·실제 운영값으로 채웠다. 법무 확정 전 값은 `pending` 로 표시한다.
  * 같은 내용이 앱(app.ai-carelink.co.kr/terms, DB terms_versions)에도 scripts/export-terms-text.mjs 로 내보내진다.
  */
 export const TERMS_META = {
-  version: '2.0',
-  publishedAt: '2026-10-30',
-  effectiveAt: '2027-01-01',          // 공고일로부터 30일 이상 (약관규제법·전자상거래법 불리한 변경 사전 공지) — 2026-10-14 브라이언 지시: 공고 2026-10-30 · 시행 2027-01-01
+  version: '1.1',                       // 초기 1.0 → 현행 1.1 (2026-10-14 지시로 전 문서 버전 통일)
+  publishedAt: '2026-12-01',
+  effectiveAt: '2027-01-01',          // 공고일(2026-12-01)로부터 31일 (약관규제법·전자상거래법 불리한 변경 사전 공지) — 2026-10-14 브라이언 지시: 공고 2026-10-30 · 시행 2027-01-01
   previousVersion: '1.0',
   previousEffectiveAt: '2026-01-01',
   previousHref: '/terms/v1.0',
@@ -17,7 +17,7 @@ export const COMPANY_LINE = '주식회사 에이쓰리시큐리티 · 대표 한
 
 export const REVISION_HISTORY = [
   { version: '1.0', effectiveAt: '2026-01-01', summary: '최초 제정' },
-  { version: '2.0', effectiveAt: '2027-01-01', summary: '운영 주체 명시, 회사 지위, AI 기본법·자동화된 결정 대응, 결제·정산·취소·환불, 건강정보, 보험, 면책 조항 정비 (공고 2026-10-30)' },
+  { version: '1.1', effectiveAt: '2027-01-01', summary: '운영 주체 명시, 회사 지위, AI 기본법·자동화된 결정 대응, 결제·정산·취소·환불, 건강정보, 보험, 면책 조항 정비 (공고 2026-12-01)' },
 ];
 
 // chapters[].articles[] — title 은 "제n조 (…)" 형식 (목차 자동 생성 기준), body 는 줄바꿈 유지 텍스트. table 은 선택.
@@ -189,7 +189,7 @@ export const CHAPTERS = [
   {
     title: '부칙',
     articles: [
-      { title: '부칙', body: `제1조 (시행일) 이 약관은 2027년 1월 1일부터 시행합니다(공고일 2026년 10월 30일). 시행일 전까지는 종전 약관(v1.0, 2026년 1월 1일 시행)이 적용됩니다.
+      { title: '부칙', body: `제1조 (시행일) 이 약관은 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 약관(v1.0, 2026년 1월 1일 시행)이 적용됩니다.
 제2조 (경과조치) 이 약관 시행 전에 성립한 간병계약에는 종전 약관을 적용합니다.` },
     ],
   },

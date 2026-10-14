@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * AI CareLink 개인정보처리방침 v2.0 — 「개인정보처리방침 법률 검토 및 개정 작업서」(2026-10-14) 반영.
+ * AI CareLink 개인정보처리방침 v1.1(개정안) — 「개인정보처리방침 법률 검토 및 개정 작업서」(2026-10-14) 반영.
  * 본문은 src/content/privacy-v2.js 한 곳에서만 관리한다. 목차는 "제n조" 헤딩에서 자동 생성한다.
  * {{ }} 자리표시자는 회사가 확정해야 하는 값으로, 화면에서 눈에 띄게 표시되며 빌드 검사(scripts/check-legal-placeholders.mjs)가 목록을 출력한다.
  */
@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { APPENDIX, ARTICLES, PRIVACY_HISTORY, PRIVACY_META, SENSITIVE_BANNER, placeholders } from '@/content/privacy-v2';
 import PrivacyV1Page from './history/v1.0/page';
 
-// 작업서 지시: 자리표시자는 임의로 채우지 않는다 → 채워지기 전까지 공개 화면은 종전 v1.0 본문을 유지하고, v2.0 은 소스에만 둔다(P-01 재발 방지).
+// 작업서 지시: 자리표시자는 임의로 채우지 않는다 → 채워지기 전까지 공개 화면은 종전 v1.0 본문을 유지하고, v1.1 은 소스에만 둔다(P-01 재발 방지).
 const V2_READY = placeholders().length === 0;
 import { COMPANY } from '@/lib/company';
 
