@@ -9,15 +9,16 @@ import { APP_PATHS } from '@/lib/hosts';
 
 const navLinks = [
   { href: '/service-intro', label: '서비스 소개' },
-  { href: '/pilot-2026', label: '요양급여 · 시범사업', highlight: true },
+  { href: '/institution-guide', label: '요양병원·요양원 안내', highlight: true },
+  { href: '/pilot-2026', label: '요양급여 · 시범사업' },
   { href: '/ai-matching', label: 'AI 매칭' },
   { href: '/community', label: '커뮤니티' },
 ];
 
 const appShortcuts = [
-  { to: APP_PATHS.patientMobile, label: '환자·보호자 앱', color: 'text-rose-400' },
-  { to: APP_PATHS.caregiverMobile, label: '간병인 앱', color: 'text-emerald-400' },
-  { to: APP_PATHS.hospital, label: '요양병원 포털', color: 'text-blue-400' },
+  { to: APP_PATHS.family, label: '가족 간병·병원 동행이 필요해요', color: 'text-rose-400' },
+  { to: APP_PATHS.work, label: '간병·동행 일을 찾고 있어요', color: 'text-emerald-400' },
+  { to: APP_PATHS.institution, label: '요양병원·요양원이에요', color: 'text-blue-400' },
 ];
 
 export default function Navbar() {
@@ -80,7 +81,7 @@ export default function Navbar() {
                 to={APP_PATHS.root}
                 className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-full transition-all inline-flex items-center gap-1.5"
               >
-                앱 열기 <ExternalLink size={14} />
+                시작하기 <ExternalLink size={14} />
               </AppLink>
             </div>
           </div>
@@ -143,7 +144,7 @@ export default function Navbar() {
               to={APP_PATHS.root}
               className="px-4 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-purple-600 to-blue-600 text-white text-center transition-all"
             >
-              앱 열기
+              시작하기
             </AppLink>
           </div>
         </div>

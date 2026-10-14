@@ -27,5 +27,5 @@ export const AI_CARELINK_SERVER_URL = AI_CARELINK_APP_URL;
 // api.ai-carelink.co.kr — 백엔드 API (FastAPI)
 
 /* ── 회사/연락처 ───────────────────────────────────────────────────────── */
-export const CONTACT_EMAIL = `support@${PROD_DOMAIN}`;
+export const CONTACT_EMAIL = 'care@a3sc.co.kr';   // 2026-10-14 확정 (㈜에이쓰리시큐리티)
 export const PARTNER_EMAIL = `partner@${PROD_DOMAIN}`;

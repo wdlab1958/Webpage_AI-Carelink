@@ -17,7 +17,7 @@ export const metadata = {
     template: "%s | AI CareLink",
   },
   description:
-    "AI 기반 고령층 통합 돌봄 플랫폼. 환자, 보호자, 간병인, 요양기관을 위한 지능형 매칭 및 스마트 케어 솔루션. 2026년 정부 시범사업 200개 병원 타겟.",
+    "가족 간병·병원 동행이 필요한 보호자와 간병인·동행 매니저를 쉽게 연결합니다. 요양병원·요양원 전용 인력 요청과 급여화 증빙도 지원. 2026 간병 급여화 시범사업 대상 요양병원 500개소 내외(원안 200개소).",
   keywords: [
     "AI 간병",
     "실버 케어",
@@ -41,7 +41,7 @@ export const metadata = {
     siteName: "AI CareLink",
     title: "AI CareLink | 기술이 사람을 보살피다",
     description:
-      "AI 기반 고령층 통합 돌봄 플랫폼. 2026년 정부 시범사업 200개 병원 타겟.",
+      "보호자·간병인·요양기관을 쉽게 연결하는 AI케어링크. 2026 간병 급여화 시범사업 대상 요양병원 500개소 내외(원안 200개소).",
     images: [
       {
         url: "/images/og-image.png",
@@ -55,7 +55,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "AI CareLink | 기술이 사람을 보살피다",
     description:
-      "AI 기반 고령층 통합 돌봄 플랫폼. 2026년 정부 시범사업 200개 병원 타겟.",
+      "보호자·간병인·요양기관을 쉽게 연결하는 AI케어링크. 2026 간병 급여화 시범사업 대상 요양병원 500개소 내외(원안 200개소).",
   },
   robots: {
     index: true,

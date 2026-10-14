@@ -395,8 +395,8 @@ export default function AIEthicsPage() {
               AI 시스템 관련 문의사항이나 이의제기가 있으시면 언제든지 연락해 주세요.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <span className="text-gray-300">이메일: ai-ethics@ai-carelink.co.kr</span>
-              <span className="text-gray-300">전화: 02-XXXX-XXXX</span>
+              <span className="text-gray-300">이메일: care@a3sc.co.kr</span>
+              <span className="text-gray-300">전화: 070-4155-5923 (평일 09:00~18:00)</span>
             </div>
           </motion.div>
         </div>

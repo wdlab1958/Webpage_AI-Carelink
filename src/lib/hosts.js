@@ -42,11 +42,24 @@ function stripTrailingSlash(u) {
  * @param {string} hostname  예: 'localhost' | '192.168.45.206' | 'www.ai-carelink.co.kr'
  * @param {string} protocol  예: 'http:' | 'https:'
  */
+/** 로컬·LAN 호스트인가 — localhost / 127.x / 10.x / 192.168.x / 172.16~31.x / *.local / 호스트명 없음 */
+export function isLocalHostname(hostname) {
+  const h = (hostname || '').toLowerCase();
+  if (!h || h === 'localhost' || h.endsWith('.localhost') || h.endsWith('.local') || h === '0.0.0.0') return true;
+  if (/^127\./.test(h) || /^10\./.test(h) || /^192\.168\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h)) return true;
+  if (h === '::1' || h === '[::1]') return true;
+  return false;
+}
+
+// 운영 빌드(정적 export / NODE_ENV=production)는 SSR 기본값부터 운영 주소를 쓴다 — UX 개편 Phase 0-1(F1):
+// 하이드레이션 전·실패 시에도 대문 링크가 localhost:3001 로 남지 않는다.
+export const IS_PROD_BUILD = process.env.NODE_ENV === 'production' || !!process.env.STATIC_EXPORT || !!process.env.GITHUB_PAGES;
+
 export function resolveTargets(hostname, protocol = 'http:') {
   const h = (hostname || '').toLowerCase();
 
-  // 운영 도메인 (www / root / app / api 어느 서브도메인으로 들어와도 동일)
-  if (h === PROD_DOMAIN || h.endsWith(`.${PROD_DOMAIN}`)) {
+  // 운영 도메인 (www / root / app / api 어느 서브도메인으로 들어와도 동일) + 로컬/LAN 이 아닌 모든 호스트(GitHub Pages 등)
+  if (h === PROD_DOMAIN || h.endsWith(`.${PROD_DOMAIN}`) || !isLocalHostname(h)) {
     return {
       mode: 'production',
       wwwUrl: PROD_WWW_URL,
@@ -66,8 +79,8 @@ export function resolveTargets(hostname, protocol = 'http:') {
   };
 }
 
-/** SSR 및 초기 렌더용 기본값 (하이드레이션 후 useTargets 가 실제 호스트 기준으로 갱신) */
-export const DEFAULT_TARGETS = resolveTargets('localhost', 'http:');
+/** SSR 및 초기 렌더용 기본값 — 운영 빌드는 운영 주소, 개발은 localhost (하이드레이션 후 useTargets 가 실제 호스트 기준으로 갱신) */
+export const DEFAULT_TARGETS = IS_PROD_BUILD ? resolveTargets(`www.${PROD_DOMAIN}`, 'https:') : resolveTargets('localhost', 'http:');
 
 /** 브라우저에서 현재 접속 호스트 기준 타깃 계산 */
 export function getTargets() {
@@ -83,13 +96,17 @@ export function appHref(path = '/', targets = getTargets()) {
 
 /* ── 플랫폼 진입 경로 (app.ai-carelink.co.kr 기준, 메인 AiCarelink Next.js 라우트) ── */
 export const APP_PATHS = {
-  root: '/',                                   // 로그인/대시보드 진입
-  login: '/',                                  // 메인 앱 루트 = 로그인 화면
-  patient: '/dashboard/patient',
-  patientMobile: '/dashboard/patient/mobile',  // 환자·보호자 스마트폰 앱 (Android PWA)
-  caregiver: '/dashboard/caregiver',
-  caregiverMobile: '/dashboard/caregiver/mobile', // 간병인 스마트폰 앱 (Android PWA)
-  hospital: '/dashboard/hospital',
+  root: '/',                                   // 역할 우선 진입 화면 ("어떤 도움이 필요하세요?")
+  login: '/?login=1',                          // 첫 화면의 로그인 열기
+  // UX 개편(2026-10-14) 역할별 앱 — 보호자 / 간병인·동행매니저 / 기관
+  family: '/family',
+  work: '/work',
+  institution: '/institution',
+  patient: '/family',
+  patientMobile: '/family',                    // (구 /dashboard/patient/mobile)
+  caregiver: '/work',
+  caregiverMobile: '/work',                    // (구 /dashboard/caregiver/mobile)
+  hospital: '/institution',                    // (구 /dashboard/hospital)
   shop: '/shop',
   shopAdmin: '/dashboard/shop-admin',
   admin: '/dashboard/admin',

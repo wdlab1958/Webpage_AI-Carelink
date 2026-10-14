@@ -2,11 +2,12 @@ import { Brain, Phone, Mail, ExternalLink, ShieldCheck, Smartphone } from 'lucid
 import Link from 'next/link';
 import AppLink from '@/components/AppLink';
 import { APP_PATHS, PROD_DOMAIN } from '@/lib/hosts';
+import { COMPANY } from '@/lib/company';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const supportEmail = `support@${PROD_DOMAIN}`;
-  const partnerEmail = `partner@${PROD_DOMAIN}`;
+  const supportEmail = COMPANY.email;
+  const partnerEmail = COMPANY.email;
 
   return (
     <footer className="border-t border-white/5">
@@ -33,8 +34,8 @@ export default function Footer() {
                 <span className="text-xl font-bold">AI CareLink</span>
               </Link>
               <p className="text-gray-500 text-sm leading-relaxed mb-4 max-w-xs">
-                플랫폼 관리자 · 요양병원 · 쇼핑몰 · 간병인 · 환자·보호자, 5개 도메인을 하나의 디지털 생태계로
-                통합한 종합 간병 서비스 플랫폼입니다.
+                보호자에게는 간병인·병원 동행 매니저를, 간병인에게는 일감을, 요양병원·요양원에는 인력과 증빙을
+                쉽게 연결합니다.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400">
@@ -67,9 +68,10 @@ export default function Footer() {
             <div>
               <h4 className="text-sm font-semibold text-gray-300 mb-4">플랫폼 바로가기</h4>
               <ul className="space-y-2.5">
-                <li><AppLink to={APP_PATHS.patientMobile} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">환자·보호자 앱</AppLink></li>
-                <li><AppLink to={APP_PATHS.caregiverMobile} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인 앱</AppLink></li>
-                <li><AppLink to={APP_PATHS.hospital} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">요양병원 포털</AppLink></li>
+                <li><AppLink to={APP_PATHS.family} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">보호자 앱 (가족 간병·병원 동행)</AppLink></li>
+                <li><AppLink to={APP_PATHS.work} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인·동행 매니저 앱</AppLink></li>
+                <li><AppLink to={APP_PATHS.institution} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">요양병원·요양원 포털</AppLink></li>
+                <li><Link href="/institution-guide" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">요양병원·요양원 안내</Link></li>
                 <li><AppLink to={APP_PATHS.shop} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">케어 쇼핑몰</AppLink></li>
                 <li><AppLink to={APP_PATHS.login} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">로그인</AppLink></li>
               </ul>
@@ -105,13 +107,16 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/5">
         <div className="container py-6 flex flex-col md:flex-row justify-between items-center gap-3">
-          <div className="flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-1 text-xs text-gray-600">
-            <span>서비스명: AI CareLink</span>
-            <span>운영: WDLAB</span>
-            <span>www.{PROD_DOMAIN} · app.{PROD_DOMAIN}</span>
+          <div className="space-y-1 text-xs text-gray-500 leading-relaxed">
+            <p className="text-gray-400 font-semibold">{COMPANY.name} ({COMPANY.nameEn}) · 서비스명 {COMPANY.serviceName} · www.{PROD_DOMAIN} · app.{PROD_DOMAIN}</p>
+            <p>대표자 {COMPANY.representative} · 사업자등록번호 {COMPANY.businessNumber} · 법인등록번호 {COMPANY.corporateNumber} · 통신판매업신고 {COMPANY.mailOrderNumber}</p>
+            <p>{COMPANY.address}</p>
+            <p>대표전화 <a href={`tel:${COMPANY.phone.replace(/[^0-9+]/g, '')}`} className="hover:text-gray-300">{COMPANY.phone}</a> ({COMPANY.supportHours}) · 팩스 {COMPANY.fax} · 이메일 <a href={`mailto:${COMPANY.email}`} className="hover:text-gray-300">{COMPANY.email}</a></p>
+            <p>개인정보보호책임자 {COMPANY.cpo} · 위치기반서비스사업자 등록번호 {COMPANY.locationBizNumber} ({COMPANY.locationBizNote}) · 유료직업소개사업 등록번호 {COMPANY.jobPlacementNumber}</p>
+            <p className="text-gray-600">회사는 간병·병원동행 서비스의 통신판매중개자로서 거래 당사자가 아니며, 케어 쇼핑몰 직접 판매 상품에 대해서는 통신판매업자입니다.</p>
           </div>
-          <p className="text-xs text-gray-600">
-            © {currentYear} AI CareLink. All rights reserved.
+          <p className="text-xs text-gray-600 whitespace-nowrap">
+            © {currentYear} {COMPANY.name}. All rights reserved.
           </p>
         </div>
       </div>

@@ -210,7 +210,7 @@ export default function TermsPage() {
               본 약관에 대한 문의사항이 있으시면 고객센터로 연락해 주시기 바랍니다.
             </p>
             <p className="text-gray-500 text-xs mt-2">
-              고객센터: support@ai-carelink.kr | 운영시간: 평일 09:00 - 18:00
+              고객센터: 070-4155-5923 · care@a3sc.co.kr | 운영시간: 평일 09:00~18:00 | 운영 사업자: 주식회사 에이쓰리시큐리티
             </p>
           </motion.div>
         </div>
