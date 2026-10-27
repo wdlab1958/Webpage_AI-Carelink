@@ -50,7 +50,7 @@ AI CareLink 플랫폼의 진입 페이지(대문)입니다. 2026-10-14 UX 개편
 - **앱과 동기화**: `node scripts/export-terms-text.mjs [앱 저장소 경로]` 가 서비스 약관 v1.1 을 평문으로 내보내 AiCarelink 저장소 `backend/legal/terms_of_service_v1.1.txt` · `docs/legal/` 에 기록합니다(앱은 `backend/scripts/seed_legal_terms.py` 로 DB `terms_versions` 에 시드). 간병인 약관/방침은 앱 가입 화면에서 이 대문 URL(`/terms-caregiver/`, `/privacy-caregiver/`)로 링크됩니다.
 - **빌드 검사** (`build:static` · `build:ghpages` 의 후속 단계, 단독 실행 `npm run check:legal`):
   - 약관·간병인 약관/방침·전자상거래·위치·AI 윤리 소스와 `out/` 산출물에 `{{ }}` · `NOTE:` · `[확인 필요` 가 남아 있으면 **실패**.
-  - (L-01) `src/` 에 미확정 문구("변호사 검토 중" 등)·구 공고일이 남아 있거나, 7종 메타가 `status`·`announced_at`·`effective_at`·사전공지 ≥ 30일 조건을 어기면 **실패**. 각 content 모듈도 로드 시 `assertLegalMeta()` 를 실행하므로 `next build` 자체가 실패한다.
+  - (L-01) `src/` 에 미확정 문구(검토 중·조정 가능 등 `LEGAL_FORBIDDEN_PHRASES`)·구 공고일(12월 1일)이 남아 있거나, 7종 메타가 `status`·`announced_at`·`effective_at`·사전공지 ≥ 30일 조건을 어기면 **실패**. 각 content 모듈도 로드 시 `assertLegalMeta()` 를 실행하므로 `next build` 자체가 실패한다.
   - 개인정보처리방침 v1.1 의 남은 자리표시자 목록을 출력(회사가 사실관계를 확정해 채워야 하는 항목). 채워지기 전까지 `/privacy` 는 v1.0 본문을 노출하고, `STRICT_PRIVACY=1` 이면 빌드 실패로 승격.
 - 푸터 "법적 고지" 메뉴: 이용약관(보호자·공통) · 간병인 이용약관 · 전자상거래 고지 · 위치기반서비스 이용자 고지 · 개인정보처리방침(통합) · 간병인 개인정보처리방침 · AI 윤리·투명성.
 
@@ -120,7 +120,8 @@ node scripts/export-terms-text.mjs ../AiCarelink   # 약관 v1.1 평문을 앱 �
 | 2026-10-04 | 전자상거래 고지 · 위치기반서비스 이용자 고지 초안 + 푸터 법적 고지 메뉴 |
 | 2026-10-14 | **B2C 역할 우선 대문**(`/`), B2G 내용 `/institution-guide` 분리, `src/lib/hosts.js` 운영 빌드 SSR 기본값·`APP_PATHS`·비로컬 호스트 운영 유도, `check-no-localhost` 빌드 검사, 사업자 정보 확정 `src/lib/company.js` |
 | 2026-10-14 | 이용약관 개정(개정 지시서 AICL-TERMS-REV-2026-10, v1.0 보존 `/terms/v1.0`, 조문 자동 목차), 개인정보처리방침 개정안(작업서 §3 21개 조 + 생성형 AI 부록, v1.0 보존 `/privacy/history/v1.0`, 자리표시자 게이트), `export-terms-text.mjs` 앱 동기화 |
-| 2026-10-14 | 간병인 이용약관 · 간병인 개인정보처리방침 신규, 공용 렌더러 `LegalDocument.js`, 전자상거래·위치·AI 윤리 고지 법률 검토 재작성, **전 법적 고지 v1.1 · 공고 2026-12-01 · 시행 2027-01-01 통일**(`legal-meta.js`), `check-legal-placeholders` 빌드 검사 |
+| 2026-10-14 | 간병인 이용약관 · 간병인 개인정보처리방침 신규, 공용 렌더러 `LegalDocument.js`, 전자상거래·위치·AI 윤리 고지 법률 검토 재작성, **전 법적 고지 v1.1 · 공고 12월 1일(구 공고일, 10-27 L-01 로 2026-10-27 정정) · 시행 2027-01-01 통일**(`legal-meta.js`), `check-legal-placeholders` 빌드 검사 |
+| 2026-10-27 | **L-01** 법적 고지 7종 버전 메타 확정: 공고 2026-10-27 · 시행 2027-01-01, `status: announced`, 미확정 문구 제거, `LegalVersionGate`(시행일 전 v1.0 기본·`?version=1.1`, 시행일부터 자동 전환), 빌드 시 메타 검증(`assertLegalMeta`), `/terms` 공용 렌더러 통합 |
 
 ---
 
