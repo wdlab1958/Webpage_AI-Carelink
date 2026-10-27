@@ -7,8 +7,10 @@
 import { COMPANY_LINE } from './terms-v2';
 import { LEGAL_ANNOUNCED_AT, LEGAL_DRAFT_V1, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
 
+// L-02: 신규 제정 약관이므로 의제동의(무응답=동의)를 쓰지 않는다 — 시행일 이후 앱 최초 접속 시 명시적 동의(동의 게이트는 앱 TODO(LEGAL-L02)).
+// 제4조③의 의제동의는 '변경' 에만 적용되는 조항이라 유지한다.
 export const CAREGIVER_TERMS_META = legalMeta({
-  statusLine: '공고 완료 — 보호자 회원에게는 「서비스 이용약관」이, 간병인·병원동행 매니저 회원에게는 시행일부터 이 약관이 함께 적용됩니다.',
+  statusLine: '공고 완료 — 시행일부터 간병인·병원동행 매니저 회원의 명시적 동의를 받아 적용합니다. 2026-12-31까지는 「서비스 이용약관」이 적용됩니다.',
 });
 export { COMPANY_LINE };
 
