@@ -88,7 +88,7 @@ export default function Footer() {
                 <li><AppLink path={APP_PATHS.locationTerms} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용약관</AppLink></li>
                 <li><AppLink path={APP_PATHS.refundPolicy} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">환불·취소 정책</AppLink></li>
                 {/* TODO(LEGAL-L10): 이용약관 제5조가 언급하는 '운영정책' 전문 페이지가 아직 없음 — 게시 후 링크 추가 */}
-                <li><Link href="/privacy" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">개인정보처리방침 (통합)</Link></li>
+                <li><Link href="/privacy" className="text-gray-200 font-semibold hover:text-white text-sm transition-colors">개인정보처리방침 (통합)</Link></li>
                 <li><Link href="/privacy-caregiver" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인 개인정보처리방침</Link></li>
                 <li><Link href="/ai-ethics" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">AI 윤리 · 투명성</Link></li>
                 <li>
@@ -114,7 +114,7 @@ export default function Footer() {
         <div className="container py-6 flex flex-col md:flex-row justify-between items-center gap-3">
           <div className="space-y-1 text-xs text-gray-500 leading-relaxed">
             <p className="text-gray-400 font-semibold">{COMPANY.name} ({COMPANY.nameEn}) · 서비스명 {COMPANY.serviceName} · www.{PROD_DOMAIN} · app.{PROD_DOMAIN}</p>
-            <p>대표자 {COMPANY.representative} · 사업자등록번호 {COMPANY.businessNumber} · 법인등록번호 {COMPANY.corporateNumber} · 통신판매업신고 {COMPANY.mailOrderNumber}</p>
+            <p>대표자 {COMPANY.representative} · 사업자등록번호 {COMPANY.businessNumber} · 법인등록번호 {COMPANY.corporateNumber} · 통신판매업신고 {COMPANY.mailOrderNumber} <a href={`https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${COMPANY.businessNumber.replace(/-/g, '')}`} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-300">사업자정보 확인</a> · 호스팅서비스 제공자 {COMPANY.hostingProvider}</p>
             <p>{COMPANY.address}</p>
             <p>대표전화 <a href={`tel:${COMPANY.phone.replace(/[^0-9+]/g, '')}`} className="hover:text-gray-300">{COMPANY.phone}</a> ({COMPANY.supportHours}) · 팩스 {COMPANY.fax} · 이메일 <a href={`mailto:${COMPANY.email}`} className="hover:text-gray-300">{COMPANY.email}</a></p>
             <p>개인정보보호책임자 {COMPANY.cpo} · {COMPANY.locationBizLabel} {COMPANY.locationBizNumber} · 유료직업소개사업 등록번호 {COMPANY.jobPlacementNumber}</p>

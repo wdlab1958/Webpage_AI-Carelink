@@ -22,5 +22,7 @@ export const COMPANY = {
   locationBizNote: 'AI CareLink 를 포함하는 변경신고 진행 중 — 완료 전까지 위치 공유 기능은 서버에서 비활성',   // 위치 고지 페이지 상단 안내 전용(푸터·사업자 표시줄에는 쓰지 않음)
   jobPlacementNumber: '제2025-318027-14-5-00029호',
   supportHours: '평일 09:00~18:00',
+  // L-14: 전자상거래법 제10조 호스팅서비스 제공자 표시. 운영 서버는 가비아 클라우드(deployment/README.md). TODO(LEGAL-L14): 계약서상 법인명 확인.
+  hostingProvider: '(주)가비아',
 };
 export const SUPPORT_PHONE = (process.env.NEXT_PUBLIC_SUPPORT_PHONE || '').trim() || COMPANY.phone;
