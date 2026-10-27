@@ -86,6 +86,8 @@ export default function Footer() {
                 <li><Link href="/ecommerce-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">전자상거래 고지 (중개·청약철회·환불)</Link></li>
                 <li><Link href="/location-service-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용자 고지</Link></li>
                 <li><AppLink path={APP_PATHS.locationTerms} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용약관</AppLink></li>
+                <li><AppLink path={APP_PATHS.refundPolicy} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">환불·취소 정책</AppLink></li>
+                {/* TODO(LEGAL-L10): 이용약관 제5조가 언급하는 '운영정책' 전문 페이지가 아직 없음 — 게시 후 링크 추가 */}
                 <li><Link href="/privacy" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">개인정보처리방침 (통합)</Link></li>
                 <li><Link href="/privacy-caregiver" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인 개인정보처리방침</Link></li>
                 <li><Link href="/ai-ethics" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">AI 윤리 · 투명성</Link></li>
