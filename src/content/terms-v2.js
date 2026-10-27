@@ -13,7 +13,7 @@ export const TERMS_META = legalMeta({
   previousHref: '/terms/v1.0',
 });
 
-export const COMPANY_LINE = '주식회사 에이쓰리시큐리티 · 대표 한재호 · 서울특별시 영등포구 선유로9길 10, 1710호, 1711호(문래동6가, 문래에스케이브이원센터) · 사업자등록번호 172-81-00570 · 법인등록번호 110111-6247997 · 통신판매업 신고 제2019-서울영등포-0676호 · 유료직업소개사업 등록 제2025-318027-14-5-00029호 · 위치기반서비스사업자 등록 제2565호(AI CareLink 포함 재신고 중) · 개인정보보호책임자 이재익 · 고객센터 070-4155-5923 · care@a3sc.co.kr (평일 09:00–18:00)';
+export const COMPANY_LINE = '주식회사 에이쓰리시큐리티 · 대표 한재호 · 서울특별시 영등포구 선유로9길 10, 1710호, 1711호(문래동6가, 문래에스케이브이원센터) · 사업자등록번호 172-81-00570 · 법인등록번호 110111-6247997 · 통신판매업 신고 제2019-서울영등포-0676호 · 유료직업소개사업 등록 제2025-318027-14-5-00029호 · 위치기반서비스사업 신고번호 제2565호 · 개인정보보호책임자 이재익 · 고객센터 070-4155-5923 · care@a3sc.co.kr (평일 09:00–18:00)';
 
 export const REVISION_HISTORY = [
   { version: LEGAL_PREVIOUS.version, announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '최초 제정' },

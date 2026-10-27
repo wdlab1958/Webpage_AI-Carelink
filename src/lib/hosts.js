@@ -96,6 +96,8 @@ export function appHref(path = '/', targets = getTargets()) {
 
 /* ── 플랫폼 진입 경로 (app.ai-carelink.co.kr 기준, 메인 AiCarelink Next.js 라우트) ── */
 export const APP_PATHS = {
+  locationTerms: '/location-terms',   // 위치기반서비스 이용약관 전문(앱, L-06/L-14)
+  refundPolicy: '/refund-policy',     // 환불·취소 정책 전문(앱, L-10/L-14)
   root: '/',                                   // 역할 우선 진입 화면 ("어떤 도움이 필요하세요?")
   login: '/?login=1',                          // 첫 화면의 로그인 열기
   // UX 개편(2026-10-14) 역할별 앱 — 보호자 / 간병인·동행매니저 / 기관

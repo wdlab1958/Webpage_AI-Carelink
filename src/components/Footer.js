@@ -85,6 +85,7 @@ export default function Footer() {
                 <li><Link href="/terms-caregiver" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인 이용약관</Link></li>
                 <li><Link href="/ecommerce-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">전자상거래 고지 (중개·청약철회·환불)</Link></li>
                 <li><Link href="/location-service-notice" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용자 고지</Link></li>
+                <li><AppLink path={APP_PATHS.locationTerms} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">위치기반서비스 이용약관</AppLink></li>
                 <li><Link href="/privacy" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">개인정보처리방침 (통합)</Link></li>
                 <li><Link href="/privacy-caregiver" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">간병인 개인정보처리방침</Link></li>
                 <li><Link href="/ai-ethics" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">AI 윤리 · 투명성</Link></li>
@@ -114,7 +115,7 @@ export default function Footer() {
             <p>대표자 {COMPANY.representative} · 사업자등록번호 {COMPANY.businessNumber} · 법인등록번호 {COMPANY.corporateNumber} · 통신판매업신고 {COMPANY.mailOrderNumber}</p>
             <p>{COMPANY.address}</p>
             <p>대표전화 <a href={`tel:${COMPANY.phone.replace(/[^0-9+]/g, '')}`} className="hover:text-gray-300">{COMPANY.phone}</a> ({COMPANY.supportHours}) · 팩스 {COMPANY.fax} · 이메일 <a href={`mailto:${COMPANY.email}`} className="hover:text-gray-300">{COMPANY.email}</a></p>
-            <p>개인정보보호책임자 {COMPANY.cpo} · 위치기반서비스사업자 등록번호 {COMPANY.locationBizNumber} ({COMPANY.locationBizNote}) · 유료직업소개사업 등록번호 {COMPANY.jobPlacementNumber}</p>
+            <p>개인정보보호책임자 {COMPANY.cpo} · {COMPANY.locationBizLabel} {COMPANY.locationBizNumber} · 유료직업소개사업 등록번호 {COMPANY.jobPlacementNumber}</p>
             <p className="text-gray-600">회사는 간병·병원동행 서비스의 통신판매중개자로서 거래 당사자가 아니며, 케어 쇼핑몰 직접 판매 상품에 대해서는 통신판매업자입니다.</p>
           </div>
           <p className="text-xs text-gray-600 whitespace-nowrap">
