@@ -2,6 +2,7 @@
 
 import { Star, MapPin, ShieldCheck, Award } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CaregiverProfileCard({
     name = "김지영",
@@ -23,9 +24,11 @@ export default function CaregiverProfileCard({
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-500 hover:scale-110"
                     />
-                    <div className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
-                        AI 추천 {matchRate}%
-                    </div>
+                    {/* L-07: 확률·정확도로 오인되는 '%' 대신 '점' — 조건 일치 정도이며 품질 보증이 아님 */}
+                    <Link href="/ai-ethics" title="조건 일치 정도이며 품질 보증이 아닙니다 · 산정 기준(/ai-ethics/)" aria-label={`추천 점수 ${matchRate}점 — 조건 일치 정도이며 품질 보증이 아닙니다. 산정 기준 보기`}
+                        className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-purple-500">
+                        추천 점수 {matchRate}점
+                    </Link>
                 </div>
 
                 <div className="flex justify-between items-start">

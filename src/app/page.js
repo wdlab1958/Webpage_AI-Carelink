@@ -16,7 +16,7 @@ import CaregiverProfileCard from '@/components/CaregiverProfileCard';
 import AppLink from '@/components/AppLink';
 import { APP_PATHS } from '@/lib/hosts';
 
-const SUPPORT_PHONE = (process.env.NEXT_PUBLIC_SUPPORT_PHONE || '').trim();
+import { COMPANY, SUPPORT_PHONE } from '@/lib/company';   // L-07: 전화 상담 표기는 푸터와 같은 출처(평일 09:00~18:00 · 대표번호)로 통일
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -38,12 +38,12 @@ const steps = [
 ];
 
 const problems = [
-  { icon: Clock, label: '기존', text: '간병인 구하는 데 평균 수 주 소요', color: 'text-gray-500' },
+  { icon: Clock, label: '기존', text: '간병인을 구하는 데 시간이 오래 걸리기도 합니다', color: 'text-gray-500' },
   { icon: Wallet, label: '기존', text: '보험 청구에 필요한 서류를 따로 챙겨야 함', color: 'text-gray-500' },
   { icon: ShieldCheck, label: '기존', text: '간병인 자격 · 교육 · 경력 확인 어려움', color: 'text-gray-500' },
   { icon: Sparkles, label: 'AI케어링크', text: '요청서를 올리면 간병인이 먼저 지원 — 비교해서 고르기', color: 'text-teal-400' },
   { icon: FileCheck, label: 'AI케어링크', text: '간병인 확인서 · 간병 사실 확인서 · 영수증을 앱에서 바로', color: 'text-teal-400' },
-  { icon: BadgeCheck, label: 'AI케어링크', text: '자격 · 교육 이수 · 경력이 확인된 분만 표시', color: 'text-teal-400' },
+  { icon: BadgeCheck, label: 'AI케어링크', text: "제출 서류로 자격·교육 이수·경력을 확인한 분에게 '확인됨' 표시", color: 'text-teal-400', href: '/terms#article-10', hrefLabel: '확인 기준 보기' },
 ];
 
 const features = [
@@ -52,7 +52,7 @@ const features = [
   { icon: <Bell className="text-amber-400 w-6 h-6" />, title: '연결되면 바로 문자', desc: '지원자 도착 · 연결 완료 · 간병 시작·종료를 카카오 알림톡·문자로 알려 드립니다.' },
   { icon: <FileCheck className="text-teal-400 w-6 h-6" />, title: '보험 청구 서류', desc: '간병이 끝나면 간병인 확인서 · 간병 사실 확인서 · 영수증을 앱에서 받습니다.' },
   { icon: <Stethoscope className="text-blue-400 w-6 h-6" />, title: '병원 동행', desc: '외래 진료 동행 요청 · 배정 · 기록. 거동이 불편한 어르신의 통원을 함께합니다.' },
-  { icon: <Lock className="text-purple-400 w-6 h-6" />, title: '안전결제 · 개인정보 보호', desc: '안전결제(결제 대금 보관 후 서비스 완료 시 지급), 건강정보 암호화 · 별도 동의.' },
+  { icon: <Lock className="text-purple-400 w-6 h-6" />, title: '안전결제 · 개인정보 보호', desc: '결제대행사(토스페이먼츠)가 결제 대금을 보관하고, 간병이 진행된 만큼 24시간 단위로 간병인에게 지급. 건강정보 암호화 · 별도 동의.' },
 ];
 
 export default function Home() {
@@ -93,12 +93,8 @@ export default function Home() {
 
             <motion.p variants={fadeUp} className="mt-8 text-base md:text-lg text-gray-300 inline-flex flex-wrap items-center justify-center gap-2">
               <Phone size={18} className="text-emerald-400" />
-              앱이 어려우신가요? 전화 상담:{' '}
-              {SUPPORT_PHONE ? (
-                <a href={`tel:${SUPPORT_PHONE.replace(/[^0-9+]/g, '')}`} className="text-emerald-300 font-bold underline underline-offset-4">{SUPPORT_PHONE}</a>
-              ) : (
-                <span className="text-emerald-300 font-bold">상담 전화 준비 중</span>
-              )}
+              앱이 어려우신가요? 전화 상담 {COMPANY.supportHours} ·{' '}
+              <a href={`tel:${SUPPORT_PHONE.replace(/[^0-9+]/g, '')}`} className="text-emerald-300 font-bold underline underline-offset-4">{SUPPORT_PHONE}</a>
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-4">
@@ -144,6 +140,7 @@ export default function Home() {
                   <div>
                     <span className={`text-xs font-semibold ${p.label === 'AI케어링크' ? 'text-teal-400' : 'text-gray-500'}`}>{p.label}</span>
                     <p className="text-sm text-gray-300 mt-0.5">{p.text}</p>
+                    {p.href && <Link href={p.href} className="text-xs text-teal-300 underline underline-offset-2 hover:text-teal-200">{p.hrefLabel}</Link>}
                   </div>
                 </div>
               </motion.div>
@@ -248,7 +245,7 @@ export default function Home() {
                 </AppLink>
               ))}
             </div>
-            <p className="mt-8 text-sm text-gray-500 inline-flex items-center gap-2"><CheckCircle size={14} className="text-teal-400" /> 개발 용어 없는 쉬운 화면 · 큰 글씨 · 전화 상담 상시 운영 <TrendingUp size={14} className="text-teal-400" /></p>
+            <p className="mt-8 text-sm text-gray-500 inline-flex items-center gap-2"><CheckCircle size={14} className="text-teal-400" /> 개발 용어 없는 쉬운 화면 · 큰 글씨 · 전화 상담 {COMPANY.supportHours} · {COMPANY.phone} <TrendingUp size={14} className="text-teal-400" /></p>
           </motion.div>
         </div>
       </section>

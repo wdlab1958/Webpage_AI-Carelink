@@ -38,10 +38,10 @@ export default function Footer() {
                 쉽게 연결합니다.
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400">
+                <Link href="/ai-ethics" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 hover:text-gray-200 hover:border-white/20">
                   <ShieldCheck size={12} className="text-teal-400" />
-                  AI 기본법 준수
-                </span>
+                  AI 이용 고지(AI 기본법)
+                </Link>
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400">
                   <ShieldCheck size={12} className="text-teal-400" />
                   개인정보보호법 · 민감정보 별도동의
