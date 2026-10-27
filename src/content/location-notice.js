@@ -1,15 +1,15 @@
 /**
  * 위치기반서비스 이용자 고지 v1.1 — 「위치정보의 보호 및 이용 등에 관한 법률」 제5조·제9조(사업 등록·신고), 제13조(관리책임자), 제15조·제18조(동의),
  * 제16조(보호조치·확인자료), 제19조(제3자 제공·통보), 제21조의2(위치정보 처리방침), 제23조(파기), 제24조(권리), 제26조(8세 이하 아동 등), 제27조(손해배상)
- * 기준으로 2026-10-14 법률 검토·재작성. 공고 2026-12-01 · 시행 2027-01-01.
+ * 기준으로 2026-10-14 법률 검토·재작성. 공고·시행일은 ./legal-meta(L-01: 2026-10-27 공고 · 2027-01-01 시행).
  * 사실관계: 간병인·병원동행 매니저 단말기 GPS 만 수집(앱 전면 실행 중, 30초 간격), 제공받는 자는 해당 요청의 보호자, 외부 전송 없음, 기능은 변경신고 완료 전 서버에서 비활성.
  */
-import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, LEGAL_PREVIOUS, LEGAL_STATUS } from './legal-meta';
+import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
 import { COMPANY_LINE } from './terms-v2';
 
-export const LOCATION_META = { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, previousVersion: LEGAL_PREVIOUS.version, previousEffectiveAt: LEGAL_PREVIOUS.effectiveAt, status: LEGAL_STATUS };
+export const LOCATION_META = legalMeta();
 export const LOCATION_HISTORY = [
-  { version: '1.0', announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '초안 — 수집 범위·동의·통보·파기·사업자 신고 확인 사항' },
+  { version: '1.0', announcedAt: '2026-10-04', effectiveAt: '—', summary: '초안 게시(미시행) — 수집 범위·동의·통보·파기·사업자 신고 확인 사항' },
   { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '등록번호·관리책임자 확정, 확인자료 보존기간 6개월로 정합, 8세 이하 아동 등 보호의무자·14세 미만 조항, 위치정보 처리방침 연계, 손해배상·구제 절차 보강' },
 ];
 export { COMPANY_LINE };
@@ -55,7 +55,11 @@ AI CareLink 앱은 통신사 등 외부 위치정보사업자로부터 위치를
 ② 위치정보와 관련한 불만·권리 행사는 위치정보관리책임자(070-4155-5923, care@a3sc.co.kr) 또는 고객센터로 접수하며, 회사는 접수일부터 10일 이내에 처리 결과를 알립니다.
 ③ 개인위치정보 침해에 대해서는 방송미디어통신위원회, 개인정보침해 신고센터(privacy.kisa.or.kr, 국번없이 118), 개인정보 분쟁조정위원회(www.kopico.go.kr, 1833-6972)에 신고·조정을 신청할 수 있습니다.` },
 
-  { title: '제8조 (고지의 변경)', body: `① 이 고지(v1.1)는 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 고지(v1.0)가 적용됩니다.
+  // TODO(LEGAL-L01): 변호사 결정 필요 — 시행된 종전 고지(v1.0)가 없음. 시행일 전에는 위치 공유 기능이 서버에서 비활성(개인위치정보 미수집)임을 안내함(L-06 과 연동).
+  { title: '제8조 (고지의 변경)', body: `① ${effectiveClause('고지', '는')} 시행일 전까지는 위치 공유 기능이 서버에서 비활성 상태이므로 개인위치정보를 수집하지 않습니다.
 ② 등록번호·관리책임자·수집 범위 등이 바뀌면 지체 없이 갱신하고, 개인위치정보주체에게 불리한 변경은 30일 전에 공지하며 앱에서 다시 동의를 받습니다.
 ③ 이 고지에서 정하지 않은 사항은 위치기반서비스 이용약관, 개인정보처리방침(통합·간병인), 위치정보법과 그 시행령을 따릅니다.` },
 ] }];
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('위치기반서비스 이용자 고지', LOCATION_META, [LOCATION_HISTORY, LOCATION_CHAPTERS]);

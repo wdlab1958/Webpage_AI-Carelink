@@ -46,10 +46,11 @@ AI CareLink 플랫폼의 진입 페이지(대문)입니다. 2026-10-14 UX 개편
 ## 법적 고지 (공용 렌더러 · 버전 관리 · 빌드 검사)
 
 - **본문은 `src/content/*.js` 한 곳에서만 관리**: `terms-v2.js`(서비스 약관) · `terms-caregiver.js` · `privacy-v2.js` · `privacy-caregiver.js` · `ecommerce-notice.js` · `location-notice.js` · `ai-ethics.js`. 페이지(`src/app/<경로>/page.js`)는 `src/components/LegalDocument.js` 공용 렌더러에 `meta / banner / chapters / history / related` 를 넘기기만 합니다(조문 "제n조" 헤딩에서 목차 자동 생성, `{{ }}` 자리표시자는 화면에 강조 표시).
-- **버전·공고일·시행일은 `src/content/legal-meta.js` 한 곳**: 초기 1.0 → 현행 **1.1**, 공고 **2026-12-01** · 시행 **2027-01-01**(공고 후 31일, 불리한 변경 30일 사전 고지 충족). 시행일 전까지는 종전 v1.0 이 적용되며 각 문서에 "변호사 검토 중" 상태 문구를 표시합니다. 각 문서는 개정 이력 표와 이전 버전 링크를 가집니다.
+- **버전·상태·공고일·시행일은 `src/content/legal-meta.js` 한 곳**: 초기 1.0 → 현행 **1.1**, `status: announced`, 공고 **2026-10-27** · 시행 **2027-01-01**(사전공지 66일, 불리·중요 변경 30일 충족). 배너·부칙·개정 이력은 이 값을 렌더링한다(날짜 직접 기재 금지). 시행일(2027-01-01 00:00 KST) 전에는 `LegalVersionGate` 가 현행 시행 버전(v1.0)을 기본 뷰로 보이고 `?version=1.1` 로 개정안을 열며, 시행일부터 v1.1 이 기본·v1.0 은 `?version=1.0` 이력(열람 시각 기준 자동 전환, 수동 배포 불필요). 시행된 종전 버전이 없는 문서(간병인 약관·방침, 전자상거래·위치·AI 고지)는 v1.1 을 보이고 시행 전 적용 규범을 안내한다. 개인정보처리방침(통합) v1.1 은 자리표시자 해소 전까지 `status: draft`(공개 화면은 v1.0). 공고 후 v1.1 본문을 바꾸면 재공고해야 하며 시행일을 지키려면 **2026-12-02** 까지(`LEGAL_REANNOUNCE_DEADLINE`). 상세: AiCarelink 저장소 `aicarelink-legal-fix-spec.md` L-01.
 - **앱과 동기화**: `node scripts/export-terms-text.mjs [앱 저장소 경로]` 가 서비스 약관 v1.1 을 평문으로 내보내 AiCarelink 저장소 `backend/legal/terms_of_service_v1.1.txt` · `docs/legal/` 에 기록합니다(앱은 `backend/scripts/seed_legal_terms.py` 로 DB `terms_versions` 에 시드). 간병인 약관/방침은 앱 가입 화면에서 이 대문 URL(`/terms-caregiver/`, `/privacy-caregiver/`)로 링크됩니다.
 - **빌드 검사** (`build:static` · `build:ghpages` 의 후속 단계, 단독 실행 `npm run check:legal`):
   - 약관·간병인 약관/방침·전자상거래·위치·AI 윤리 소스와 `out/` 산출물에 `{{ }}` · `NOTE:` · `[확인 필요` 가 남아 있으면 **실패**.
+  - (L-01) `src/` 에 미확정 문구("변호사 검토 중" 등)·구 공고일이 남아 있거나, 7종 메타가 `status`·`announced_at`·`effective_at`·사전공지 ≥ 30일 조건을 어기면 **실패**. 각 content 모듈도 로드 시 `assertLegalMeta()` 를 실행하므로 `next build` 자체가 실패한다.
   - 개인정보처리방침 v1.1 의 남은 자리표시자 목록을 출력(회사가 사실관계를 확정해 채워야 하는 항목). 채워지기 전까지 `/privacy` 는 v1.0 본문을 노출하고, `STRICT_PRIVACY=1` 이면 빌드 실패로 승격.
 - 푸터 "법적 고지" 메뉴: 이용약관(보호자·공통) · 간병인 이용약관 · 전자상거래 고지 · 위치기반서비스 이용자 고지 · 개인정보처리방침(통합) · 간병인 개인정보처리방침 · AI 윤리·투명성.
 

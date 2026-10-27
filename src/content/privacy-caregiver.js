@@ -3,18 +3,17 @@
  * 간병인 회원(구직자·서비스 제공자)에 특유한 처리(자격·경력, 정산 계좌, 소득 자료, 위치정보, 보험, 결격사유 확인, 보호자에게 제공되는 항목)를
  * 다루고, 위탁·국외이전·안전조치 등 회사 공통 사항은 통합 개인정보처리방침(/privacy)의 해당 조를 따른다(중복·자리표시자 방지).
  * 케어네이션의 "동의 문구 확인 시 동의 간주"·쿠키 기반 타깃 마케팅·신용정보법 3년 보존은 따르지 않는다.
- * 초기 1.0(2026-10-14 게시 초안) → 현행 1.1: 공고 2026-12-01 · 시행 2027-01-01. 자리표시자 없음(빌드 검사 대상).
+ * 초기 1.0(2026-10-14 게시 초안, 미시행) → 현행 1.1: 공고·시행일은 ./legal-meta(L-01). 자리표시자 없음(빌드 검사 대상).
  */
-export const CAREGIVER_PRIVACY_META = {
-  version: '1.1',
-  announcedAt: '2026-12-01',
-  effectiveAt: '2027-01-01',
-  status: '변호사 검토 중 — 시행일 전 검토 결과에 따라 문구가 조정될 수 있습니다. 수탁자·국외이전 등 회사 공통 항목은 통합 개인정보처리방침을 따릅니다.',
-};
+import { LEGAL_ANNOUNCED_AT, LEGAL_DRAFT_V1, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
+
+export const CAREGIVER_PRIVACY_META = legalMeta({
+  statusLine: '공고 완료 — 수탁자·국외이전 등 회사 공통 항목은 통합 개인정보처리방침을 따릅니다.',
+});
 
 export const CAREGIVER_PRIVACY_HISTORY = [
-  { version: '1.0', announcedAt: '2026-10-14', effectiveAt: '—', summary: '초안 게시 — 간병인·병원동행 매니저 회원 전용(자격·경력, 정산·소득 자료, 보호자 제공 항목, 보험·결격사유, 위치정보, 자동화된 결정)' },
-  { version: '1.1', announcedAt: '2026-12-01', effectiveAt: '2027-01-01', summary: '법무 검토 반영·전 법적 고지 공고일·시행일 통일' },
+  { ...LEGAL_DRAFT_V1, summary: '초안 게시(미시행) — 간병인·병원동행 매니저 회원 전용(자격·경력, 정산·소득 자료, 보호자 제공 항목, 보험·결격사유, 위치정보, 자동화된 결정)' },
+  { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '전 법적 고지 공고일·시행일 통일, 공고' },
 ];
 
 const T = (head, rows) => ({ head, rows });
@@ -113,7 +112,10 @@ export const CAREGIVER_PRIVACY_CHAPTERS = [{ title: '본문', articles: [
 • 대검찰청: www.spo.go.kr / 국번없이 1301
 • 경찰청 사이버범죄 신고시스템: ecrm.police.go.kr / 국번없이 182` },
 
-  { title: '15. 개인정보처리방침의 변경', body: `① 본 방침(v1.1)은 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일).
+  { title: '15. 개인정보처리방침의 변경', body: `① ${effectiveClause('방침', '은').replace('이 방침', '본 방침')}
 ② 정보주체 권리에 중요한 변경은 시행 7일 전(불리한 변경은 30일 전)부터 공지하고, 불리한 변경은 이메일·앱 알림으로 개별 통지합니다. 수탁자 추가 등 경미한 변경은 통합 개인정보처리방침의 일괄 공지에 따릅니다.
 ③ 이전 버전은 개정 이력에서 열람할 수 있습니다.` },
 ] }];
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('간병인 개인정보처리방침', CAREGIVER_PRIVACY_META, [CAREGIVER_PRIVACY_HISTORY, CAREGIVER_PRIVACY_CHAPTERS]);

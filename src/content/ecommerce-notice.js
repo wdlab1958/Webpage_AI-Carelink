@@ -1,14 +1,14 @@
 /**
  * 전자상거래 고지 v1.1 — 「전자상거래 등에서의 소비자보호에 관한 법률」 제13조(표시·고지), 제17조·제18조(청약철회·효과), 제20조·제20조의2(통신판매중개자 고지·책임),
- * 제6조(거래기록 보존), 제5조·제14조(전자문서·청약 확인) 및 약관규제법 기준으로 2026-10-14 법률 검토·재작성. 공고 2026-12-01 · 시행 2027-01-01.
+ * 제6조(거래기록 보존), 제5조·제14조(전자문서·청약 확인) 및 약관규제법 기준으로 2026-10-14 법률 검토·재작성. 공고·시행일은 ./legal-meta(L-01: 2026-10-27 공고 · 2027-01-01 시행).
  * 사실관계: 결제대행 토스페이먼츠(결제대금예치·지급대행), 소비자피해보상보험 미가입, 간병·동행 위약금 미도입(약관 제13조), 플랫폼 이용료 간병비의 10%.
  */
-import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, LEGAL_PREVIOUS, LEGAL_STATUS } from './legal-meta';
+import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
 import { COMPANY_LINE } from './terms-v2';
 
-export const ECOMMERCE_META = { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, previousVersion: LEGAL_PREVIOUS.version, previousEffectiveAt: LEGAL_PREVIOUS.effectiveAt, status: LEGAL_STATUS };
+export const ECOMMERCE_META = legalMeta();
 export const ECOMMERCE_HISTORY = [
-  { version: '1.0', announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '초안 — 통신판매중개 고지·청약철회·환불·사업자 표시(자리표시자 포함)' },
+  { version: '1.0', announcedAt: '2026-10-04', effectiveAt: '—', summary: '초안 게시(미시행) — 통신판매중개 고지·청약철회·환불·사업자 표시(자리표시자 포함)' },
   { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '사업자 정보 확정, 중개자 신원정보 제공·연대책임 고지(제20조·제20조의2), 결제대금예치·보험 미가입 사실 명시, 간병·동행 취소 기준을 약관과 연동, 정기결제·미성년자·분쟁 처리기한·표시광고 조항 보강' },
 ];
 export { COMPANY_LINE };
@@ -96,6 +96,10 @@ export const ECOMMERCE_CHAPTERS = [{ title: '본문', articles: [
   · 공정거래위원회 ☎ 044-200-4010 (www.ftc.go.kr)
 ③ 회사와 소비자 사이의 분쟁에는 대한민국 법을 적용하며, 소송은 민사소송법에 따른 관할 법원에 제기합니다.` },
 
-  { title: '제12조 (고지의 변경)', body: `① 이 고지(v1.1)는 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 고지(v1.0, 2026년 1월 1일 시행)가 적용됩니다.
+  // TODO(LEGAL-L01): 변호사 결정 필요 — 시행된 종전 고지(v1.0)가 없어 시행일 전 적용 규범을 「서비스 이용약관」·거래 화면 표시사항으로 안내함. 적정성 확인.
+  { title: '제12조 (고지의 변경)', body: `① ${effectiveClause('고지', '는')} 시행일 전까지 거래 조건은 현행 「서비스 이용약관」(v1.0)과 개별 거래 화면의 표시사항에 따릅니다.
 ② 사업자 정보·결제대행사·보험 체결 여부 등 표시사항이 바뀌면 지체 없이 갱신하고, 소비자에게 불리한 변경은 30일 전에 공지합니다.` },
 ] }];
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('전자상거래 고지', ECOMMERCE_META, [ECOMMERCE_HISTORY, ECOMMERCE_CHAPTERS]);

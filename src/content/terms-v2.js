@@ -1,23 +1,23 @@
 /**
  * AI CareLink 서비스 이용약관 v1.1 — 개정 지시서 AICL-TERMS-REV-2026-10 §5 전문.
- * 자리표시자는 2026-10-14 확정 사업자 정보·실제 운영값으로 채웠다. 법무 확정 전 값은 `pending` 로 표시한다.
+ * 자리표시자는 2026-10-14 확정 사업자 정보·실제 운영값으로 채웠다.
+ * 버전·상태·공고일(2026-10-27)·시행일(2027-01-01)은 ./legal-meta 한 곳에서만 관리한다(L-01).
  * 같은 내용이 앱(app.ai-carelink.co.kr/terms, DB terms_versions)에도 scripts/export-terms-text.mjs 로 내보내진다.
  */
-export const TERMS_META = {
-  version: '1.1',                       // 초기 1.0 → 현행 1.1 (2026-10-14 지시로 전 문서 버전 통일)
-  publishedAt: '2026-12-01',
-  effectiveAt: '2027-01-01',          // 공고일(2026-12-01)로부터 31일 (약관규제법·전자상거래법 불리한 변경 사전 공지) — 2026-10-14 브라이언 지시: 공고 2026-10-30 · 시행 2027-01-01
-  previousVersion: '1.0',
-  previousEffectiveAt: '2026-01-01',
+import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, LEGAL_PREVIOUS, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
+
+export const TERMS_META = legalMeta({
+  previousVersion: LEGAL_PREVIOUS.version,
+  previousAnnouncedAt: LEGAL_PREVIOUS.announcedAt,
+  previousEffectiveAt: LEGAL_PREVIOUS.effectiveAt,
   previousHref: '/terms/v1.0',
-  status: '변호사 검토 중 — 시행일 전 검토 결과에 따라 문구가 조정될 수 있습니다',
-};
+});
 
 export const COMPANY_LINE = '주식회사 에이쓰리시큐리티 · 대표 한재호 · 서울특별시 영등포구 선유로9길 10, 1710호, 1711호(문래동6가, 문래에스케이브이원센터) · 사업자등록번호 172-81-00570 · 법인등록번호 110111-6247997 · 통신판매업 신고 제2019-서울영등포-0676호 · 유료직업소개사업 등록 제2025-318027-14-5-00029호 · 위치기반서비스사업자 등록 제2565호(AI CareLink 포함 재신고 중) · 개인정보보호책임자 이재익 · 고객센터 070-4155-5923 · care@a3sc.co.kr (평일 09:00–18:00)';
 
 export const REVISION_HISTORY = [
-  { version: '1.0', effectiveAt: '2026-01-01', summary: '최초 제정' },
-  { version: '1.1', effectiveAt: '2027-01-01', summary: '운영 주체 명시, 회사 지위, AI 기본법·자동화된 결정 대응, 결제·정산·취소·환불, 건강정보, 보험, 면책 조항 정비 (공고 2026-12-01)' },
+  { version: LEGAL_PREVIOUS.version, announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '최초 제정' },
+  { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '운영 주체 명시, 회사 지위, AI 기본법·자동화된 결정 대응, 결제·정산·취소·환불, 건강정보, 보험, 면책 조항 정비' },
 ];
 
 // chapters[].articles[] — title 은 "제n조 (…)" 형식 (목차 자동 생성 기준), body 는 줄바꿈 유지 텍스트. table 은 선택.
@@ -189,7 +189,7 @@ export const CHAPTERS = [
   {
     title: '부칙',
     articles: [
-      { title: '부칙', body: `제1조 (시행일) 이 약관은 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 약관(v1.0, 2026년 1월 1일 시행)이 적용됩니다.
+      { title: '부칙', body: `제1조 (시행일) ${effectiveClause('약관', '은')} 시행일 전까지는 종전 약관(v1.0, 2026년 1월 1일 시행)이 적용됩니다.
 제2조 (경과조치) 이 약관 시행 전에 성립한 간병계약에는 종전 약관을 적용합니다.` },
     ],
   },
@@ -197,7 +197,7 @@ export const CHAPTERS = [
 
 /** 조문 단위 평문 (앱 DB·검색용) */
 export function toPlainText() {
-  const lines = [`AI CareLink 서비스 이용약관 (v${TERMS_META.version} · 게시 ${TERMS_META.publishedAt} · 시행 ${TERMS_META.effectiveAt})`, '', COMPANY_LINE, ''];
+  const lines = [`AI CareLink 서비스 이용약관 (v${TERMS_META.version} · 공고 ${TERMS_META.announcedAt} · 시행 ${TERMS_META.effectiveAt})`, '', COMPANY_LINE, ''];
   for (const ch of CHAPTERS) {
     lines.push(ch.title, '');
     for (const a of ch.articles) {
@@ -209,6 +209,10 @@ export function toPlainText() {
     }
   }
   lines.push('개정 이력');
-  for (const h of REVISION_HISTORY) lines.push(`v${h.version} (${h.effectiveAt} 시행) — ${h.summary}`);
+  for (const h of REVISION_HISTORY) lines.push(`v${h.version} (${h.announcedAt} 공고 · ${h.effectiveAt} 시행) — ${h.summary}`);
   return lines.join('\n');
 }
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('이용약관', TERMS_META, [REVISION_HISTORY, CHAPTERS]);
+

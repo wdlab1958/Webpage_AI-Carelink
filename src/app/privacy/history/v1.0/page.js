@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Shield, ChevronRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function PrivacyV1Page({ current = false } = {}) {
+export default function PrivacyV1Page({ current = false, notice = null } = {}) {
   // current=true: /privacy 게이트에서 현행 본문으로 렌더(자리표시자가 남은 v1.1 개정안 대신). false: 보존본(/privacy/history/v1.0)
   const sections = [
     {
@@ -300,6 +300,7 @@ export default function PrivacyV1Page({ current = false } = {}) {
               </div>
             </div>
 
+            {notice}
             {/* Info Box */}
             <div className="p-6 glass rounded-2xl border border-white/10 mb-8">
               <p className="text-gray-300 text-sm leading-relaxed">

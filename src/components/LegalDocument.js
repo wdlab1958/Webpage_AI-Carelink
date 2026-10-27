@@ -2,7 +2,7 @@
 
 /**
  * 법적 고지 공용 렌더러 — 이용약관·개인정보처리방침(보호자/간병인) 이 같은 디자인을 쓴다.
- * props: { icon, title, subtitle, meta:{version, announcedAt, effectiveAt, previousVersion?, previousEffectiveAt?, previousHref?, status?},
+ * props: { icon, title, subtitle, notice?(버전 게이트 안내 요소), meta:{version, status, announcedAt, effectiveAt, statusLine?, previousVersion?, previousEffectiveAt?, previousHref?},
  *          banner?:{title, body, tone:'amber'|'purple'}, chapters:[{title, articles:[{title, body, table?, bodyAfter?}]}],
  *          history:[{version, announcedAt?, effectiveAt, summary}], footerLine, related?:[{href,label}] }
  * 목차는 "제n조"/"n." 헤딩에서 자동 생성한다. {{ }} 자리표시자는 눈에 띄게 표시한다.
@@ -38,11 +38,11 @@ export function DataTable({ table }) {
   );
 }
 
-export default function LegalDocument({ icon: Icon, title, subtitle, meta, banner, chapters, history = [], footerLine, related = [] }) {
+export default function LegalDocument({ icon: Icon, title, subtitle, notice = null, meta, banner, chapters, history = [], footerLine, related = [] }) {
   const toc = chapters.map((ch) => ({ chapter: ch.title, items: ch.articles.filter((a) => a.title !== ch.title).map((a) => ({ id: articleId(a.title), title: a.title })) }));
   const metaBar = (
     <div className="flex flex-wrap gap-4 text-xs text-gray-400">
-      <span>버전: {meta.version}</span>
+      <span>버전: {meta.version}{meta.status === 'announced' && ' (공고 완료)'}{meta.status === 'draft' && ' (개정안)'}</span>
       {meta.announcedAt && <span>공고일: <Text>{meta.announcedAt}</Text></span>}
       <span>시행일: <Text>{meta.effectiveAt}</Text></span>
       {meta.previousHref && <Link href={meta.previousHref} className="text-purple-300 hover:text-purple-200 underline">이전 버전(v{meta.previousVersion}) 보기</Link>}
@@ -69,6 +69,7 @@ export default function LegalDocument({ icon: Icon, title, subtitle, meta, banne
                 {subtitle && <p className="text-gray-400 mt-1">{subtitle}</p>}
               </div>
             </div>
+            {notice}
             {banner && (
               <div className={`p-6 glass rounded-2xl mb-4 border ${banner.tone === 'purple' ? 'border-purple-400/30 bg-purple-500/5' : 'border-amber-400/30 bg-amber-500/5'}`}>
                 <div className="flex items-start gap-3">
@@ -76,7 +77,7 @@ export default function LegalDocument({ icon: Icon, title, subtitle, meta, banne
                   <div className="text-sm leading-relaxed text-gray-200">
                     <p className={`font-semibold ${banner.tone === 'purple' ? 'text-purple-200' : 'text-amber-200'}`}>{banner.title}</p>
                     <p className="mt-1 whitespace-pre-line"><Text>{banner.body}</Text></p>
-                    {meta.status && <p className="mt-2 text-xs text-gray-400">{meta.status}</p>}
+                    {meta.statusLine && <p className="mt-2 text-xs text-gray-400">{meta.statusLine}</p>}
                   </div>
                 </div>
               </div>

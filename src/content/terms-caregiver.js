@@ -2,21 +2,19 @@
  * AI CareLink 간병인·병원동행 매니저 이용약관 v1.0 — 케어네이션 케어메이트 이용약관(2026-10-02 시행) 구조를 참고하되
  * AiCarelink 실제 구조(공고형 요청서 → 지원 → 보호자 선택 → 연결, 플랫폼 이용료 간병비의 10%, 결제대행 토스페이먼츠,
  * 위약금 미도입, AI 추천은 사람이 최종 선택, 유료직업소개사업 등록)에 맞춰 작성. 포괄 면책은 "회사의 귀책사유가 없는 한" 단서로 제한.
- * 초기 1.0(2026-10-14 게시 초안) → 현행 1.1: 공고 2026-12-01 · 시행 2027-01-01. 자리표시자 없음(빌드 검사 대상).
+ * 초기 1.0(2026-10-14 게시 초안, 미시행) → 현행 1.1: 공고·시행일은 ./legal-meta(L-01). 자리표시자 없음(빌드 검사 대상).
  */
 import { COMPANY_LINE } from './terms-v2';
+import { LEGAL_ANNOUNCED_AT, LEGAL_DRAFT_V1, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
 
-export const CAREGIVER_TERMS_META = {
-  version: '1.1',
-  announcedAt: '2026-12-01',
-  effectiveAt: '2027-01-01',
-  status: '변호사 검토 중 — 시행일 전 검토 결과에 따라 문구가 조정될 수 있습니다. 보호자 회원에게는 「서비스 이용약관」이, 간병인·병원동행 매니저 회원에게는 이 약관이 함께 적용됩니다.',
-};
+export const CAREGIVER_TERMS_META = legalMeta({
+  statusLine: '공고 완료 — 보호자 회원에게는 「서비스 이용약관」이, 간병인·병원동행 매니저 회원에게는 시행일부터 이 약관이 함께 적용됩니다.',
+});
 export { COMPANY_LINE };
 
 export const CAREGIVER_TERMS_HISTORY = [
-  { version: '1.0', announcedAt: '2026-10-14', effectiveAt: '—', summary: '초안 게시 — 간병인·병원동행 매니저 회원 전용 약관(가입·자격 확인·외국인·일감 지원·정산·취소 페널티·외부 거래 금지·보험·결격사유·연락두절)' },
-  { version: '1.1', announcedAt: '2026-12-01', effectiveAt: '2027-01-01', summary: '법무 검토 반영·전 법적 고지 공고일(2026-12-01)·시행일(2027-01-01) 통일' },
+  { ...LEGAL_DRAFT_V1, summary: '초안 게시(미시행) — 간병인·병원동행 매니저 회원 전용 약관(가입·자격 확인·외국인·일감 지원·정산·취소 페널티·외부 거래 금지·보험·결격사유·연락두절)' },
+  { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '전 법적 고지 공고일·시행일 통일, 공고' },
 ];
 
 const T = (head, rows) => ({ head, rows });
@@ -173,7 +171,10 @@ export const CAREGIVER_TERMS_CHAPTERS = [
 ④ 이 약관에서 정하지 않은 사항은 「서비스 이용약관」, 직업안정법, 전자상거래 등에서의 소비자보호에 관한 법률, 전자문서 및 전자거래 기본법, 전자서명법, 개인정보 보호법, 위치정보법, 인공지능 기본법, 그 밖의 관계 법령에 따릅니다.` },
   ] },
   { title: '부칙', articles: [
-    { title: '부칙', body: `제1조 (시행일) 이 약관은 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일).
+    { title: '부칙', body: `제1조 (시행일) ${effectiveClause('약관', '은')}
 제2조 (경과조치) 이 약관 시행 전에 가입한 간병인 회원에게도 시행일부터 이 약관이 적용되며, 시행 전에 성립한 간병계약에는 그 당시의 약관을 적용합니다.` },
   ] },
 ];
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('간병인 이용약관', CAREGIVER_TERMS_META, [CAREGIVER_TERMS_HISTORY, CAREGIVER_TERMS_CHAPTERS]);

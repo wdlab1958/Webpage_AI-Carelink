@@ -1,16 +1,16 @@
 /**
  * AI 윤리·투명성 고지 v1.1 — 「인공지능 발전과 신뢰 기반 조성 등에 관한 기본법」(2026-01-22 시행) 제31조(투명성 확보 의무: 사전 고지·생성물 표시),
  * 제33조·제34조(고영향 AI 확인·사업자 책무), 「개인정보 보호법」 제37조의2(자동화된 결정에 대한 정보주체의 권리), 표시·광고의 공정화에 관한 법률,
- * 의료법·의료기기법(의료행위·의료기기 해당성 경계) 기준으로 2026-10-14 법률 검토·재작성. 공고 2026-12-01 · 시행 2027-01-01.
+ * 의료법·의료기기법(의료행위·의료기기 해당성 경계) 기준으로 2026-10-14 법률 검토·재작성. 공고·시행일은 ./legal-meta(L-01: 2026-10-27 공고 · 2027-01-01 시행).
  * 사실관계(코드 기준): AI 는 지원자 정렬·추천 이유·가중치 프로파일 제안·추천 사유 문장 생성에만 쓰이고 최종 선택은 사람이 한다. 가중치 프로파일은 서버 내부
  * Local LLM(외부 전송 없음), 정렬 수식은 docs/MATCHING_SCORE_FORMULA.md 에 공개. AI 챗은 규칙 기반 FAQ + 가드레일. 음성·리포트 생성형 기능은 도입 전.
  */
-import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, LEGAL_PREVIOUS, LEGAL_STATUS } from './legal-meta';
+import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
 import { COMPANY_LINE } from './terms-v2';
 
-export const AI_ETHICS_META = { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, previousVersion: LEGAL_PREVIOUS.version, previousEffectiveAt: LEGAL_PREVIOUS.effectiveAt, status: LEGAL_STATUS };
+export const AI_ETHICS_META = legalMeta();
 export const AI_ETHICS_HISTORY = [
-  { version: '1.0', announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '초안 — 작동 원리·고려 요소·한계·인적 감독·이용자 권리·AI 생성 콘텐츠 표시' },
+  { version: '1.0', announcedAt: '2026-01-25', effectiveAt: '—', summary: '초안(안내 페이지) — 작동 원리·고려 요소·한계·인적 감독·이용자 권리·AI 생성 콘텐츠 표시' },
   { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: 'AI 기본법 제31조 사전 고지·생성물 표시, 고영향 AI 해당성 판단과 제34조 조치, 자동화된 결정 권리(30일), 실제 수식·가중치 공개, 서버 내부 처리(데이터 비반출), 의료기기·웰니스 경계, 표시광고 기준, 신고 절차로 재작성' },
 ];
 export { COMPANY_LINE };
@@ -99,8 +99,12 @@ Score = 0.25 × 거리 + 0.20 × 자격·전문분야 + 0.15 × 경력 + 0.20 ×
 ② "AI 매칭"이라는 표현은 제2조·제3조의 실제 구조(점수 정렬 제안 + 사람의 선택)를 뜻하며, 인공지능이 간병인을 자동으로 배정하거나 품질을 보증한다는 뜻으로 표시하지 않습니다.
 ③ 예시 화면·예시 간병인은 "예시"로 표시하고 실제 회원 정보와 구분합니다.` },
 
+  // TODO(LEGAL-L01): 변호사 결정 필요 — 시행된 종전 고지(v1.0)가 없음(구 안내 페이지). 시행일 전 '안내 목적 게시' 표현의 적정성 확인.
   { title: '제12조 (문의·신고 및 고지의 변경)', body: `① 인공지능 관련 문의, 이의제기, 부적절한 추천·응답 신고: care@a3sc.co.kr · 070-4155-5923 (평일 09:00~18:00) · 앱 [신고] 버튼. 접수 후 30일 이내에 결과를 알립니다.
-② 이 고지(v1.1)는 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 고지(v1.0)가 적용됩니다.
+② ${effectiveClause('고지', '는')} 시행일 전에는 이 고지를 안내 목적으로 게시합니다.
 ③ 인공지능 기능의 추가·변경(생성형 기능 도입, 가중치 변경, 외부 모델 사용 등)이 있으면 변경 전 7일(이용자에게 불리한 변경은 30일) 전부터 공지하고 이 고지를 갱신합니다.
 ④ 이 고지에서 정하지 않은 사항은 이용약관, 개인정보처리방침, AI 기본법과 그 시행령, 개인정보 보호법을 따릅니다.` },
 ] }];
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('AI 윤리·투명성 고지', AI_ETHICS_META, [AI_ETHICS_HISTORY, AI_ETHICS_CHAPTERS]);

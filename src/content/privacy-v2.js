@@ -4,20 +4,21 @@
  * 채우기 전에는 운영 배포가 차단된다(scripts/check-legal-placeholders.mjs). 코드·계약으로 확인된 사실(처리자·연락처·등록번호·
  * PG 토스페이먼츠·AI 추천의 사람 선택 구조·서버 내부 AI)만 채웠다.
  */
-export const PRIVACY_META = {
-  version: '1.1',
-  announcedAt: '2026-12-01',
-  effectiveAt: '2027-01-01',
-  previousVersion: '1.0',
-  previousAnnouncedAt: '2025-12-25',
-  previousEffectiveAt: '2026-01-01',
+import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, LEGAL_PREVIOUS, assertLegalMeta, effectiveClause, legalMeta } from './legal-meta';
+
+// status: 'draft' — 수탁자 자리표시자가 남아 있어 아직 공고하지 않았다(L-05 에서 채운 뒤 'announced' 로 전환). 공고 전까지 공개 화면은 v1.0.
+export const PRIVACY_META = legalMeta({
+  status: 'draft',
+  previousVersion: LEGAL_PREVIOUS.version,
+  previousAnnouncedAt: LEGAL_PREVIOUS.announcedAt,
+  previousEffectiveAt: LEGAL_PREVIOUS.effectiveAt,
   previousHref: '/privacy/history/v1.0',
-  status: '개정안(v1.1) — 사실관계 확정 및 법무 검토 중. 시행일 전까지는 v1.0 이 적용됩니다.',
-};
+  statusLine: '개정안(v1.1) — 수탁자 등 사실관계 확정 후 공고 예정. 공고 전까지는 v1.0 이 적용됩니다.',
+});
 
 export const PRIVACY_HISTORY = [
-  { version: '1.0', announcedAt: '2025-12-25', effectiveAt: '2026-01-01', summary: '최초 제정' },
-  { version: '1.1', announcedAt: '2026-12-01', effectiveAt: '2027-01-01', summary: '처리자 명칭 정정, 수탁자 실명 공개, 이용자 유형별 항목, 위치정보·자동화된 결정·국외이전·가명정보·생성형 AI 조항 신설, 보유기간 정비' },
+  { version: LEGAL_PREVIOUS.version, announcedAt: LEGAL_PREVIOUS.announcedAt, effectiveAt: LEGAL_PREVIOUS.effectiveAt, summary: '최초 제정' },
+  { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: '처리자 명칭 정정, 수탁자 실명 공개, 이용자 유형별 항목, 위치정보·자동화된 결정·국외이전·가명정보·생성형 AI 조항 신설, 보유기간 정비' },
 ];
 
 const T = (head, rows) => ({ head, rows });
@@ -207,7 +208,7 @@ export const ARTICLES = [
 
   { title: '제20조 (링크 사이트)', body: `회사는 케어 쇼핑몰 입점 판매자, 제휴 기관, 지도·길 안내 서비스 등 다른 사업자의 웹사이트·앱으로 연결되는 링크를 제공할 수 있습니다. 링크된 사이트는 회사의 개인정보 처리방침이 적용되지 않으며, 해당 사이트의 개인정보 처리에 대하여 회사는 책임을 지지 않습니다. 링크된 사이트를 이용할 때는 해당 사이트의 개인정보 처리방침을 확인하시기 바랍니다.` },
 
-  { title: '제21조 (개인정보 처리방침의 변경)', body: `① 본 방침(v1.1)은 2027년 1월 1일부터 시행합니다(공고일 2026년 12월 1일). 시행일 전까지는 종전 방침(v1.0)이 적용됩니다. 정보주체 권리에 중요한 변경은 시행 7일 전(불리한 변경은 30일 전)부터 공지하고, 불리한 변경은 이메일·앱 알림으로 개별 통지합니다. 수탁자 추가 등 경미한 변경은 제8조 제3항에 따라 일괄 공지합니다.
+  { title: '제21조 (개인정보 처리방침의 변경)', body: `① ${effectiveClause('방침', '은').replace('이 방침', '본 방침')} 시행일 전까지는 종전 방침(v1.0)이 적용됩니다. 정보주체 권리에 중요한 변경은 시행 7일 전(불리한 변경은 30일 전)부터 공지하고, 불리한 변경은 이메일·앱 알림으로 개별 통지합니다. 수탁자 추가 등 경미한 변경은 제8조 제3항에 따라 일괄 공지합니다.
 ② 이전 버전은 아래 개정 이력에서 열람할 수 있습니다.` },
 ];
 
@@ -235,3 +236,6 @@ export function placeholders() {
   for (const h of PRIVACY_HISTORY) scan('개정 이력', `${h.announcedAt} ${h.effectiveAt}`);
   return out;
 }
+
+// 빌드 시 검증(L-01 ③): 상태·공고일·시행일·사전공지 기간·미확정 문구 — 위반 시 next build 실패
+assertLegalMeta('개인정보처리방침(통합)', PRIVACY_META, [PRIVACY_HISTORY, ARTICLES, APPENDIX]);
