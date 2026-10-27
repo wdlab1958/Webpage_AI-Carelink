@@ -9,6 +9,12 @@ import { LEGAL_ANNOUNCED_AT, LEGAL_EFFECTIVE_AT, assertLegalMeta, effectiveClaus
 import { COMPANY_LINE } from './terms-v2';
 
 export const AI_ETHICS_META = legalMeta();
+// L-16: 과기정통부 고영향 인공지능 해당 여부 확인 요청(AI 기본법 제33조②) 현황 — 결정·회신 시 이 값만 갱신한다.
+// TODO(LEGAL-L16): 변호사 결정 필요 — 확인 요청 여부. 'requested'|'answered' 로 바꾸면 제5조①에 그대로 표시된다.
+export const HIGH_IMPACT_CONFIRMATION = { status: 'not_requested', label: '미요청', requestedAt: null, result: null };
+const highImpactLine = () => HIGH_IMPACT_CONFIRMATION.status === 'answered'
+  ? `회신 결과: ${HIGH_IMPACT_CONFIRMATION.result}`
+  : HIGH_IMPACT_CONFIRMATION.status === 'requested' ? `요청 중(${HIGH_IMPACT_CONFIRMATION.requestedAt})` : HIGH_IMPACT_CONFIRMATION.label;
 export const AI_ETHICS_HISTORY = [
   { version: '1.0', announcedAt: '2026-01-25', effectiveAt: '—', summary: '초안(안내 페이지) — 작동 원리·고려 요소·한계·인적 감독·이용자 권리·AI 생성 콘텐츠 표시' },
   { version: '1.1', announcedAt: LEGAL_ANNOUNCED_AT, effectiveAt: LEGAL_EFFECTIVE_AT, summary: 'AI 기본법 제31조 사전 고지·생성물 표시, 고영향 AI 해당성 판단과 제34조 조치, 자동화된 결정 권리(30일), 실제 수식·가중치 공개, 서버 내부 처리(데이터 비반출), 의료기기·웰니스 경계, 표시광고 기준, 신고 절차로 재작성' },
@@ -56,6 +62,7 @@ Score = 0.25 × 거리 + 0.20 × 자격·전문분야 + 0.15 × 경력 + 0.20 ×
   · 간병인 추천: 고용·서비스 접근 기회에 영향을 줄 수 있는 평가 요소가 있으나, 추천은 순서 제안에 그치고 선택·확정은 사람이 하며 사람이 개입 없이 배제되는 구조가 아니므로 고영향 인공지능에 해당하지 않는 것으로 판단합니다. 다만 보건·의료 인접 서비스임을 고려하여 고영향 인공지능에 준하는 관리 체계를 자발적으로 적용합니다.
   · 건강관리 정보·건강 기록 알림(보호자가 설정한 기준값을 벗어나면 알려 드리는 기록 알림이며, 질병을 판단하거나 진단하지 않습니다): 참고 정보이며 의료 판단을 대체하지 않으나, 생명·신체 안전과 관련되므로 같은 관리 체계를 적용합니다.
   · 판단 결과와 근거는 내부 문서로 보관하며, 법률 전문가 검토와 서비스 변경에 따라 갱신합니다.
+  · 과학기술정보통신부 고영향 인공지능 해당 여부 확인 요청(법 제33조 제2항) 현황: ${highImpactLine()} — 요청 여부를 결정하면 이 항에 요청일과 회신 결과를 기재합니다.
 ② 회사는 제34조에 준하여 다음 조치를 시행합니다.
   1. 위험관리: 추천 결과·가중치 조정 내역을 요청별로 기록하고 월 1회 이상 편향·오류를 점검
   2. 설명: 이용자가 요청하면 추천 기준·과정과 개별 결과의 주요 요소를 설명(제6조)
