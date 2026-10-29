@@ -215,7 +215,9 @@ bash formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh <(git sh
 
 - 커밋 1: `formal: WDLAB proof-skills 검증 (deploy-release-atomicity) — FIXED 2026-10-29` — sha **`5eb9b22`** (`git log -1 --stat` → `formal/deploy-release-atomicity/evidence/git_commit.log`)
 - 커밋 2: 커밋 로그·보고서 sha 기록 (`formal: 커밋 sha 기록 …`)
-- push: **실패** (커밋은 로컬에 남김): `힌트: 'git pull' before pushing again. 힌트: See the 'Note about fast-forwards' in 'git push --help' for details. `
+- push: 1차 `git push origin HEAD` 는 **rejected (fetch first)** — 원격 `main` 에 로컬에 없던 법적 고지 커밋 16개(`6f915bc`…`690c69b`, L-01~L-16)가 있었음. 금지된 rebase·force push 대신 `git merge --no-edit origin/main` (충돌 없음, `deployment/deploy-webpage.sh` 원격 변경 없음) → 머지 커밋 **`1500383`** → `git push origin HEAD` **성공** (`690c69b..1500383 HEAD -> main`).
+- 머지 후 재확인: `bash formal/run_all.sh` ALL GATES OK · `npm run lint` PASS · `STATIC_EXPORT=1 npm run build:static` PASS(21 페이지, localhost 0건, 자리표시자·미확정 문구 0건, 버전 메타·조문 상호참조 검증 통과) — `evidence/l0_merged_*.log`. 원격 변경(`legal-meta.js` 공고일 2026-10-27, `LegalVersionGate`)은 본 concern 과 무관하며 F3(OG 이미지 누락)은 원격에서도 미해결.
+- 커밋 3: 머지·푸시 결과 기록 (본 §10 갱신, `evidence/l0_merged_*.log`) — 이후 push.
 
 ### 10.1 커밋 기록
 
