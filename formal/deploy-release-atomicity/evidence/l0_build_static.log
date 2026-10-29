@@ -1,0 +1,82 @@
+
+> aicarelink-webpage@0.1.0 build:static
+> STATIC_EXPORT=1 next build && node scripts/check-no-localhost.mjs && node scripts/check-legal-placeholders.mjs
+
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1863.4ms
+  Running TypeScript ...
+  Collecting page data using 27 workers ...
+  Generating static pages using 27 workers (0/21) ...
+  Generating static pages using 27 workers (5/21) 
+  Generating static pages using 27 workers (10/21) 
+  Generating static pages using 27 workers (15/21) 
+✓ Generating static pages using 27 workers (21/21) in 460.7ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /ai-ethics
+├ ○ /ai-matching
+├ ○ /community
+├ ○ /ecommerce-notice
+├ ○ /institution-guide
+├ ○ /location-service-notice
+├ ○ /login
+├ ○ /mypage
+├ ○ /pilot-2026
+├ ○ /privacy
+├ ○ /privacy-caregiver
+├ ○ /privacy/history/v1.0
+├ ○ /service-intro
+├ ○ /signup
+├ ○ /terms
+├ ○ /terms-caregiver
+└ ○ /terms/v1.0
+
+
+○  (Static)  prerendered as static content
+
+✓ localhost 링크 0건 (185 files in out)
+✓ 이용약관 자리표시자·NOTE 0건
+⚠ 개인정보처리방침 v1.1(개정안) 자리표시자 35건 — 회사가 사실관계를 확정해 채워야 합니다:
+   - 제2조 (개인정보의 처리 목적 및 법적 근거): {{가명처리 여부}}
+   - 제2조 (개인정보의 처리 목적 및 법적 근거): {{가명처리(제28조의2) 또는 별도 동의}}
+   - 제2조 (개인정보의 처리 목적 및 법적 근거): {{ }}
+   - 제3조 (처리하는 개인정보 항목 — 이용자 유형별): {{주민등록번호(소득세법 제145조 등 원천징수) — 해당 시}}
+   - 제3조 (처리하는 개인정보 항목 — 이용자 유형별): {{, 위치 — 해당 시}}
+   - 제4조 (민감정보(건강정보)의 처리 및 공개 가능성): {{확인 방법}}
+   - 제4조 (민감정보(건강정보)의 처리 및 공개 가능성): {{예: 질환 범주, ADL 등급(혼자 걸으심·부축 필요·누워 계심), 성별}}
+   - 제4조 (민감정보(건강정보)의 처리 및 공개 가능성): {{옵션 구현·명칭 확정}}
+   - 제5조 (고유식별정보의 처리): {{주민등록번호 — 소득세법 제145조·제164조 등 해당 시, 수집 여부 확정}}
+   - 제5조 (고유식별정보의 처리): {{해당 항목·조문 확인}}
+   - 제5조 (고유식별정보의 처리): {{범죄경력 조회 해당 여부·근거(노인복지법 등) 확인 — 본인 제출 방식}}
+   - 제6조 (개인정보의 처리 및 보유 기간): {{N개월}}
+   - 제6조 (개인정보의 처리 및 보유 기간): {{※ 1년 보관이 필요하면 사유·동의 근거 기재}}
+   - 제6조 (개인정보의 처리 및 보유 기간): {{2년 — 직업안정법 시행규칙 해당 조문 확인}}
+   - 제6조 (개인정보의 처리 및 보유 기간): {{조문 확인}}
+   - 제8조 (개인정보 처리의 위탁): {{분기}}
+   - 제8조 (개인정보 처리의 위탁): {{클라우드 사업자 법인명 — 현재 국내 클라우드(가비아) 사용, 법인명·계약 확인}}
+   - 제8조 (개인정보 처리의 위탁): {{본인인증기관명}}
+   - 제8조 (개인정보 처리의 위탁): {{알림톡/SMS 발송사명}}
+   - 제8조 (개인정보 처리의 위탁): {{이메일 발송 서비스}}
+   - 제8조 (개인정보 처리의 위탁): {{택배사 — 쇼핑몰}}
+   - 제9조 (개인정보의 국외 이전): {{국외 이전 없음 / 있음 — 사실관계 확인 후 택1}}
+   - 제11조 (가명정보의 처리): {{ }}
+   - 제11조 (가명정보의 처리): {{ }}
+   - 제11조 (가명정보의 처리): {{ }}
+   - 제11조 (가명정보의 처리): {{없음 / 있음}}
+   - 제11조 (가명정보의 처리): {{옵트아웃 방법}}
+   - 제12조 (개인위치정보의 처리): {{간병인 출·퇴근 확인, 긴급호출 위치 전달 — 해당 시}}
+   - 제14조 (정보주체와 법정대리인의 권리·의무 및 행사방법): {{회사가 보건의료 분야 정보전송자로 지정된 경우 절차 기재 / 미지정 시 "열람 및 사본 교부로 지원" 문구로 대체}}
+   - 제17조 (개인정보 자동수집 장치(쿠키 등) 및 행태정보): {{분석/마케팅 쿠키 사용 시: 도구명(예: Google Analytics), 수집 항목, 보유기간, 국외 이전 여부}}
+   - 제17조 (개인정보 자동수집 장치(쿠키 등) 및 행태정보): {{맞춤형 광고를 위한 행태정보를 수집하지 않습니다 / 다음과 같이 수집합니다: 항목·방법·목적·보유기간·수집 허용 사업자}}
+   - [부록] 생성형 AI 서비스 개인정보 처리 안내: {{AI Voice-Chatbot(출시 시)}}
+   - [부록] 생성형 AI 서비스 개인정보 처리 안내: {{, 음성 — 해당 시}}
+   - [부록] 생성형 AI 서비스 개인정보 처리 안내: {{저장 위치·기간}}
+   - [부록] 생성형 AI 서비스 개인정보 처리 안내: {{이용하지 않음 / 가명처리 후 이용 — 제외 요청 방법}}
+   → /privacy 는 자리표시자가 남아 있는 동안 v1.0 본문을 표시합니다(src/app/privacy/page.js 게이트). 채우면 자동으로 v1.1 이 노출됩니다.
+BUILD_EXIT=0

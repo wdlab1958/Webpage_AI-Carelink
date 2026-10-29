@@ -1,0 +1,124 @@
+TLC2 Version 2026.10.28.014557 (rev: 56d37a9)
+Running breadth-first search Model-Checking with fp 63 and seed 3368717683743207487 with 4 workers on 28 cores with 27305MB heap and 64MB offheap memory [pid: 829870] (Linux 6.14.0-37-generic amd64, Ubuntu 21.0.12.1 64bit, MSBDiskFPSet, DiskStateQueue).
+Parsing file /home/ubuntu-02/ai_project/AiCarelink-Webpage/formal/deploy-release-atomicity/tla/DeployRelease.tla
+Parsing file /tmp/tlc-7382387131639972439/Naturals.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file /tmp/tlc-7382387131639972439/FiniteSets.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file /tmp/tlc-7382387131639972439/_TLCTrace.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/_TLCTrace.tla)
+Parsing file /home/ubuntu-02/ai_project/AiCarelink-Webpage/formal/deploy-release-atomicity/tla/Properties.tla
+Parsing file /tmp/tlc-7382387131639972439/Sequences.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file /tmp/tlc-7382387131639972439/TLC.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file /tmp/tlc-7382387131639972439/TLCExt.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/TLCExt.tla)
+Parsing file /tmp/tlc-7382387131639972439/Integers.tla (jar:file:/home/ubuntu-02/.cache/proof-skills/tla2tools.jar!/tla2sany/StandardModules/Integers.tla)
+Semantic processing of module Naturals
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module Integers
+Semantic processing of module TLCExt
+Semantic processing of module _TLCTrace
+Semantic processing of module Properties
+Semantic processing of module DeployRelease
+Linting of module TLCExt
+Linting of module _TLCTrace
+Linting of module Properties
+Linting of module DeployRelease
+Starting... (2026-10-29 14:41:31)
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-10-29 14:41:31.
+Error: Invariant NeverBothDone is violated.
+Error: The behavior up to this point is:
+State 1: <Initial predicate>
+/\ out = "absent"
+/\ lock = None
+/\ rel = (d1 :> "none" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "start" @@ d2 :> "start")
+
+State 2: <Acquire(d1) line 52, col 5 to line 61, col 38 of module DeployRelease>
+/\ out = "absent"
+/\ lock = d1
+/\ rel = (d1 :> "none" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "sync" @@ d2 :> "start")
+
+State 3: <Clean(d1) line 65, col 5 to line 68, col 39 of module DeployRelease>
+/\ out = "absent"
+/\ lock = d1
+/\ rel = (d1 :> "none" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "building" @@ d2 :> "start")
+
+State 4: <BuildStart(d1) line 72, col 5 to line 75, col 39 of module DeployRelease>
+/\ out = "partial"
+/\ lock = d1
+/\ rel = (d1 :> "none" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "built" @@ d2 :> "start")
+
+State 5: <BuildEnd(d1) line 81, col 5 to line 84, col 39 of module DeployRelease>
+/\ out = "complete"
+/\ lock = d1
+/\ rel = (d1 :> "none" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "checked" @@ d2 :> "start")
+
+State 6: <Copy(d1) line 89, col 5 to line 97, col 33 of module DeployRelease>
+/\ out = "complete"
+/\ lock = d1
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = None
+/\ pc = (d1 :> "copied" @@ d2 :> "start")
+
+State 7: <Swap(d1) line 102, col 5 to line 106, col 29 of module DeployRelease>
+/\ out = "complete"
+/\ lock = None
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "start")
+
+State 8: <Acquire(d2) line 52, col 5 to line 61, col 38 of module DeployRelease>
+/\ out = "complete"
+/\ lock = d2
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "sync")
+
+State 9: <Clean(d2) line 65, col 5 to line 68, col 39 of module DeployRelease>
+/\ out = "absent"
+/\ lock = d2
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "building")
+
+State 10: <BuildStart(d2) line 72, col 5 to line 75, col 39 of module DeployRelease>
+/\ out = "partial"
+/\ lock = d2
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "built")
+
+State 11: <BuildEnd(d2) line 81, col 5 to line 84, col 39 of module DeployRelease>
+/\ out = "complete"
+/\ lock = d2
+/\ rel = (d1 :> "complete" @@ d2 :> "none")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "checked")
+
+State 12: <Copy(d2) line 89, col 5 to line 97, col 33 of module DeployRelease>
+/\ out = "complete"
+/\ lock = d2
+/\ rel = (d1 :> "complete" @@ d2 :> "complete")
+/\ current = d1
+/\ pc = (d1 :> "done" @@ d2 :> "copied")
+
+State 13: <Swap(d2) line 102, col 5 to line 106, col 29 of module DeployRelease>
+/\ out = "complete"
+/\ lock = None
+/\ rel = (d1 :> "complete" @@ d2 :> "complete")
+/\ current = d2
+/\ pc = (d1 :> "done" @@ d2 :> "done")
+
+47 states generated, 37 distinct states found, 0 states left on queue.
+The depth of the complete state graph search is 13.
+Finished in 00s at (2026-10-29 14:41:31)
+Trace exploration spec path: ./DeployRelease_TTrace_1793252491.tla

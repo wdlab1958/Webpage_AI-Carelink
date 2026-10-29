@@ -1,0 +1,104 @@
+{
+  "concern": "deploy-release-atomicity",
+  "workflow": "W1",
+  "generated_at": "2026-10-29T15:00:00+09:00",
+  "repo_commit": "07e4dfc",
+  "summary": "FIXED — deploy-webpage.sh 동시 실행 시 미완성 out/ 이 릴리스·current 가 되는 레이스를 TLC(Deployers=2, 49 states/37 distinct, depth 13)로 발견, bash 하네스로 재현, flock -n 배타 실행으로 수정·재검증(fix ON PASS / fix OFF FAIL / sanity FAIL).",
+  "scope": {
+    "modeled": ["deployment/deploy-webpage.sh 의 Clean→Build(2단계)→Check+Copy→Swap 단계, 실행 2개 임의 인터리빙", "flock -n 잠금(fix toggle UseLock)"],
+    "abstracted": ["빌드를 index.html 선행/자산 후행 2단계로 축약(A1)", "cp -a 를 원자적 스냅숏 복사로(A2)", "두 빌드 산출물 혼합 트리를 complete 로 간주(A3)", "git/npm 동시 충돌은 set -e 종료로 흡수(A4)", "릴리스 5개 보존 정리 미발동(A5)", "nginx reload·캐시 무시(A6)"],
+    "out_of_scope": ["GitHub Pages 워크플로(이미 concurrency 그룹 직렬화)", "nginx/TLS/DNS", "빌드 내용 정확성(L0 로만 점검)", "src/lib/api.js(사장 코드) 토큰 갱신 경합"],
+    "assumptions": ["A7: flock(2) 는 같은 호스트 프로세스 간 배타, fd 닫힘으로 해제", "A6: mv -Tf 심볼릭 링크 교체는 원자적"]
+  },
+  "properties": [
+    {"name": "CurrentComplete", "kind": "invariant", "statement": "current # None => rel[current] = \"complete\"", "meaning": "current 가 가리키는 릴리스는 항상 완전한 산출물", "source": "deployment/deploy-webpage.sh:8-9; README.md:24; deployment/nginx/ai-carelink-www.conf:29", "frozen": true, "result": "holds", "tool": "TLC 2026.10.28 (tla2tools v1.8.0)", "bounds": "Deployers={d1,d2}, UseLock=TRUE; 49 states generated, 37 distinct, depth 13", "evidence": "deploy-release-atomicity/evidence/tlc_fixed.log"},
+    {"name": "ReleasesComplete", "kind": "invariant", "statement": "\\A d \\in Deployers : rel[d] \\in {\"none\", \"complete\"}", "meaning": "releases/ 아래 모든 릴리스(롤백 후보)는 완전", "source": "deployment/deploy-webpage.sh:10; deployment/README.md:101", "frozen": true, "result": "holds", "tool": "TLC 2026.10.28", "bounds": "Deployers={d1,d2}, UseLock=TRUE", "evidence": "deploy-release-atomicity/evidence/tlc_fixed.log"},
+    {"name": "SomeoneDeploys", "kind": "liveness", "statement": "<>(\\E d \\in Deployers : pc[d] = \"done\")", "meaning": "잠금 추가가 교착·기아를 만들지 않는다 — 어떤 실행은 끝까지 간다", "source": "deployment/deploy-webpage.sh:8", "frozen": true, "result": "holds", "tool": "TLC 2026.10.28", "bounds": "Deployers={d1,d2}, WF_vars(Step)", "evidence": "deploy-release-atomicity/evidence/tlc_fixed.log"},
+    {"name": "LockReleasedWhenDone", "kind": "invariant", "statement": "\\A d : pc[d] \\in {\"done\",\"aborted\"} => lock # d", "meaning": "끝난 실행은 잠금을 쥐지 않음", "source": "deployment/deploy-webpage.sh:28-33", "frozen": false, "result": "holds", "tool": "TLC 2026.10.28", "bounds": "Deployers={d1,d2}", "evidence": "deploy-release-atomicity/evidence/tlc_fixed.log"},
+    {"name": "TypeOK", "kind": "invariant", "statement": "type invariant", "meaning": "모든 변수가 선언 도메인 안", "source": "-", "frozen": false, "result": "holds", "tool": "TLC 2026.10.28", "bounds": "Deployers={d1,d2}", "evidence": "deploy-release-atomicity/evidence/tlc_fixed.log"},
+    {"name": "NeverBothDone (sanity, must fail)", "kind": "bounded-check", "statement": "~(\\A d : pc[d] = \"done\")", "meaning": "두 실행이 순차로 모두 완료되는 상태가 도달 가능 — 모델이 실제로 탐색함", "source": "-", "frozen": false, "result": "violated", "tool": "TLC 2026.10.28", "bounds": "Deployers={d1,d2}, UseLock=TRUE; 47/37 states, 반례 depth 13", "evidence": "deploy-release-atomicity/evidence/tlc_sanity.log"}
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "title": "deploy-webpage.sh 동시 실행 → 공유 repo/out 의 미완성 산출물이 releases/ 로 복사되고 current 가 그것을 가리킴",
+      "severity": "high",
+      "status": "fixed",
+      "property": "ReleasesComplete (depth 9), CurrentComplete (depth 10)",
+      "story": "실행 A 가 next build 를 끝낸 직후, 실행 B 가 같은 repo/ 에서 rm -rf out 을 하고 자기 빌드를 시작해 out/index.html 만 만든 상태에서 A 가 test -f out/index.html 을 통과하고 cp -a out/. 으로 B 의 미완성 트리를 릴리스로 복사한 뒤 current 를 교체한다. 운영 사이트는 index.html 만 있고 _next/static 자산이 없는 릴리스를 서빙하고, 그 릴리스는 B 가 끝난 뒤에도 롤백 후보로 남는다.",
+      "trace": [
+        {"step": 1, "actor": "-", "action": "Init", "code": "-", "changed": {"out": "absent", "current": "None", "rel": "none/none"}},
+        {"step": 2, "actor": "d1", "action": "Acquire(d1)", "code": "deployment/deploy-webpage.sh:41-44 [전:32-35]", "changed": {"pc[d1]": "sync"}},
+        {"step": 3, "actor": "d1", "action": "Clean(d1)", "code": "deployment/deploy-webpage.sh:49-51 [전:40-42]", "changed": {"pc[d1]": "building"}},
+        {"step": 4, "actor": "d1", "action": "BuildStart(d1)", "code": "deployment/deploy-webpage.sh:52 [전:43]", "changed": {"out": "partial", "pc[d1]": "built"}},
+        {"step": 5, "actor": "d1", "action": "BuildEnd(d1)", "code": "deployment/deploy-webpage.sh:52 [전:43]", "changed": {"out": "complete", "pc[d1]": "checked"}},
+        {"step": 6, "actor": "d2", "action": "Acquire(d2)", "code": "deployment/deploy-webpage.sh:41-44 [전:32-35]", "changed": {"pc[d2]": "sync"}},
+        {"step": 7, "actor": "d2", "action": "Clean(d2)", "code": "deployment/deploy-webpage.sh:49-51 [전:40-42]", "changed": {"out": "absent", "pc[d2]": "building"}},
+        {"step": 8, "actor": "d2", "action": "BuildStart(d2)", "code": "deployment/deploy-webpage.sh:52 [전:43]", "changed": {"out": "partial", "pc[d2]": "built"}},
+        {"step": 9, "actor": "d1", "action": "Copy(d1)", "code": "deployment/deploy-webpage.sh:53,56-58 [전:44,47-49]", "changed": {"rel[d1]": "partial", "pc[d1]": "copied"}, "violation": true},
+        {"step": 10, "actor": "d1", "action": "Swap(d1)", "code": "deployment/deploy-webpage.sh:59-60 [전:50-51]", "changed": {"current": "d1", "pc[d1]": "done"}, "violation": true}
+      ],
+      "reproduction": {"test": "formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh", "result_before_fix": "fails", "result_after_fix": "passes"},
+      "fix": {
+        "summary": "스크립트 시작부(mkdir releases 직후)에 $DEPLOY_ROOT/.deploy.lock 에 대한 flock -n 배타 잠금 추가 — 다른 배포가 진행 중이면 메시지 출력 후 exit 1 (fail-closed). 기능 제거·무조건 early-return 아님: 단독 실행 경로는 그대로.",
+        "diff": "deploy-release-atomicity/evidence/patches/F1-deploy-webpage-flock.diff",
+        "model_recheck": "passes",
+        "mutation_check": "fails-as-expected"
+      },
+      "evidence": [
+        "deploy-release-atomicity/evidence/tlc_bug.log", "deploy-release-atomicity/evidence/trace_bug.md",
+        "deploy-release-atomicity/evidence/tlc_bug_current.log", "deploy-release-atomicity/evidence/trace_bug_current.md",
+        "deploy-release-atomicity/evidence/test_before.log", "deploy-release-atomicity/evidence/test_after.log",
+        "deploy-release-atomicity/evidence/tlc_fixed.log", "deploy-release-atomicity/evidence/mutation.log",
+        "deploy-release-atomicity/evidence/patches/F1-deploy-webpage-flock.diff"
+      ]
+    },
+    {
+      "id": "F2",
+      "title": "src/lib/api.js: 401 동시 발생 시 tryRefreshToken() 중복 호출 — 회전된 refresh 토큰으로 두 번째 갱신이 실패하면 clearTokens() 가 첫 번째의 유효 토큰을 지우고 /login 으로 강제 이동 (사장 코드)",
+      "severity": "low",
+      "status": "suspected",
+      "property": "유효한 세션은 동시 요청 수에 무관하게 유지된다 (single-flight refresh)",
+      "story": "apiFetch A·B 가 동시에 401 → 각자 tryRefreshToken(oldRT) → 서버가 토큰을 회전하면 A 성공(newRT 저장), B 실패(oldRT 무효) → B 가 clearTokens() 로 newRT 까지 삭제하고 window.location.href='/login'. 현재 이 모듈은 어디서도 import 되지 않아(grep 'lib/api' 0건) 운영 영향 없음. 사용 시 갱신 Promise 공유(single-flight) 필요.",
+      "reproduction": {"result_before_fix": "not-reproduced", "result_after_fix": "not-run"},
+      "evidence": ["CANDIDATES.md (C2)"]
+    },
+    {
+      "id": "F3",
+      "title": "OG 이미지 자산 누락 — src/app/layout.js:47 가 /images/og-image.png 를 참조하지만 public/images/ 에 파일이 없음 (소셜 공유 미리보기 깨짐)",
+      "severity": "low",
+      "status": "confirmed",
+      "property": "참조된 정적 자산은 모두 산출물에 존재한다 (L0 정적 점검)",
+      "story": "npm run build:static 후 out/images/og-image.png 없음. 수정은 이미지 파일 추가(디자인 산출물 필요) 또는 참조 제거 — 1줄 오타 수준이 아니므로 미수정, HITL.",
+      "reproduction": {"result_before_fix": "fails", "result_after_fix": "not-run"},
+      "evidence": ["CANDIDATES.md (L0 표)", "deploy-release-atomicity/evidence/l0_build_static.log"]
+    }
+  ],
+  "trust_base": {
+    "tla": {"tool_version": "TLC 2026.10.28 (tla2tools v1.8.0), OpenJDK 21.0.12.1", "states_generated": 49, "distinct_states": 37, "depth": 13,
+            "sanity_checks": ["MC_sanity.cfg NeverBothDone violated (exit 12)", "MC_bug.cfg UseLock=FALSE → ReleasesComplete violated (exit 12, depth 9)", "MC_bug_current.cfg → CurrentComplete violated (exit 12, depth 10)", "-coverage 1: 모든 action 발화, UseLock=FALSE 분기만 fix ON 에서 0 (기대값)"]}
+  },
+  "rerun": [
+    "cd AiCarelink-Webpage && bash formal/run_all.sh",
+    "cd formal/deploy-release-atomicity/tla && java -cp ~/.cache/proof-skills/tla2tools.jar tlc2.TLC -workers 4 -config MC.cfg DeployRelease.tla        # PASS",
+    "cd formal/deploy-release-atomicity/tla && java -cp ~/.cache/proof-skills/tla2tools.jar tlc2.TLC -workers 4 -config MC_bug.cfg DeployRelease.tla    # exit 12",
+    "cd formal/deploy-release-atomicity/tla && java -cp ~/.cache/proof-skills/tla2tools.jar tlc2.TLC -workers 4 -config MC_sanity.cfg DeployRelease.tla # exit 12",
+    "bash formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh                                   # PASS (수정 후)",
+    "bash formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh <(git show 07e4dfc:deployment/deploy-webpage.sh)   # 수정 전 스크립트로 → FAIL"
+  ],
+  "next_steps": [
+    "W5: formal/run_all.sh 를 CI(deploy.yml) 에 추가 — deployment/** 또는 formal/** 변경 시 3-config 게이트",
+    "W4: flock 도입으로 `test -f out/index.html` 검사의 역할 재검토(완성 마커 또는 빌드 산출 디렉터리를 실행별 임시 경로로 두는 단순화)",
+    "W7(후속 제안): Lean 설치 후 N 실행에 대한 상호배제 불변식 증명 — 현재 L2 BOUNDED-PASS(Deployers=2)",
+    "F2: api.js 를 쓰게 된다면 single-flight refresh 로 수정 후 IdempotentRetry 패턴으로 모델링",
+    "F3: og-image.png 추가 또는 metadata 참조 제거(HITL)"
+  ],
+  "wdlab": {
+    "project": "AiCarelink-Webpage",
+    "level_achieved": "L2",
+    "verdict": "FIXED (F1) / BOUNDED-PASS (수정 후 모델, Deployers=2, 49 states, depth 13)",
+    "hitl_approvals": ["G2: pending Brian review", "G7: pending Brian review (flock -n fail-fast; 대안 flock -w <초> 대기)"],
+    "risk_domain": "healthcare-marketing-site-availability",
+    "one_cycle_stage": "dev → LLMOps-eval(미적용) → SSC → ARGUS"
+  }
+}

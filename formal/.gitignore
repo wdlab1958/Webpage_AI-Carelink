@@ -1,0 +1,5 @@
+.tlc-out/
+.repro-last.log
+*_TTrace_*
+.sany.log
+states/

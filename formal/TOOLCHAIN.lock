@@ -1,0 +1,8 @@
+# WDLAB-STD-VERIFY-001 §4.3 — AiCarelink-Webpage formal/ 툴체인 고정 (2026-10-29)
+proof-skills = 0.1.1
+tla2tools    = v1.8.0 (TLC 2026.10.28)
+java         = OpenJDK 21.0.12.1
+lean         = not installed (L3 미주장)
+model        = claude-fable-5-1
+node         = v22.23.4 (L0 정적 점검: eslint 9, next 16.1.1 build:static)
+pandoc       = 3.1.3 (보고서 docx 변환)

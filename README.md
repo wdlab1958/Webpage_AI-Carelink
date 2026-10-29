@@ -1,6 +1,15 @@
 # AI CareLink — 대문 (www.ai-carelink.co.kr)
 
-> 최종 수정일: 2026년 10월 15일 (2026-09-23 이후: nginx 배포 정본·보안 헤더·Cloudflare 대응, B2C 역할 우선 대문, 법적 고지 7종 v1.1 공용 렌더러·빌드 검사)
+> 최종 수정일: 2026년 10월 29일 (2026-10-15 이후: `formal/` 형식 검증 추가 — 배포 스크립트 동시 실행 레이스 F1 수정(`flock`), 그 전: nginx 배포 정본·보안 헤더·Cloudflare 대응, B2C 역할 우선 대문, 법적 고지 7종 v1.1 공용 렌더러·빌드 검사)
+
+## 🔬 형식 검증 (Formal Verification) — Oct.29, 2026
+
+- **적용 표준**: WDLAB-STD-VERIFY-001 v1.0 (Unified WDLAB Proof-Skills Standard, proof-skills 0.1.1 / TLA+ TLC 2026.10.28). 산출물은 `formal/` (추가 전용, 기존 코드 변경은 아래 F1 패치 1건).
+- **concern**: `deploy-release-atomicity` — 가비아 서버 배포 스크립트 `deployment/deploy-webpage.sh` 두 실행이 겹칠 때 공유 `repo/out` 의 **미완성 빌드 산출물**이 `releases/` 로 복사되고 `current` 가 그것을 가리키는가. (정적 웹페이지라 서버·DB·폼 로직이 없어, 운영 상태를 바꾸는 유일한 로직을 선정 — 후보표 `formal/CANDIDATES.md`)
+- **verdict**: **F1 FIXED** · 수정 후 모델 **BOUNDED-PASS, 레벨 L2** · 경계 `Deployers={d1,d2}`, 빌드 2단계, 49 states / 37 distinct / depth 13 · 신뢰 기반: TLC 2026.10.28 + `formal/deploy-release-atomicity/SCOPE.md` 의 추상화 A1~A7(`cp -a` 원자 스냅숏, 두 빌드 혼합 트리 미모델, 릴리스 정리 미발동). "검증됨" 은 이 경계·추상화 안에서 반례가 없다는 뜻이며 코드 전체의 정확성 주장이 아니다. Lean 미설치로 L3 는 주장하지 않는다.
+- **수정된 finding**: F1 — TLC 반례(실행 A 빌드 완료 → B 가 `rm -rf out` 후 `index.html` 만 생성 → A 가 `test -f out/index.html` 통과·`cp -a` 로 미완성 트리 복사 → `current` 교체)를 bash 하네스로 결정적 재현(`evidence/test_before.log` FAIL) → 스크립트 시작부에 `flock -n $DEPLOY_ROOT/.deploy.lock` 배타 실행 추가(겹치면 즉시 종료, fail-closed) → 재현 테스트 PASS, 모델 PASS, fix OFF mutation 재실패 확인. 부수 발견(미수정·기록만): F2 `src/lib/api.js` 동시 401 토큰 갱신 경합(사장 코드, SUSPECTED), F3 `/images/og-image.png` 참조 자산 누락(CONFIRMED, HITL).
+- **실행**: `bash formal/run_all.sh` (MC=PASS / MC_bug=FAIL / MC_sanity=FAIL / 재현 테스트 PASS 단언, `TLC_WORKERS` 존중) · 재현만: `bash formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh`
+- **보고서**: `formal/reports/2026-10-29-deploy-release-atomicity.md` (docx: `~/ai_project/Proof-Skills/AiCarelink-Webpage_ProofSkills_Report_2026-10-29.docx`) · HITL pending: G2 속성 동결 승인, G7 수정 설계(`flock -n` 즉시 종료 vs `flock -w` 대기)
 
 ## 프로젝트 소개
 
@@ -108,10 +117,11 @@ node scripts/export-terms-text.mjs ../AiCarelink   # 약관 v1.1 평문을 앱 �
 - 사업자 표시는 `src/lib/company.js` 단일 출처(푸터·결제 안내·법적 고지 공통)
 - KWCAG 2.2 웹 접근성 표준 준수
 
-## 최근 업데이트 (2026-10-15 기준)
+## 최근 업데이트 (2026-10-29 기준)
 
 | 날짜 | 내용 |
 |---|---|
+| 2026-10-29 | **형식 검증 `formal/` 추가** (WDLAB-STD-VERIFY-001): `deploy-webpage.sh` 동시 실행 레이스 F1 FIXED(`flock -n`), TLA+ 3-config + bash 재현 하네스, L0 정적 점검(lint·build·링크·자산), 보고서 docx |
 | 2026-09-23 | CI: GitHub Pages 임시 미리보기 배포 + `build:ghpages`(basePath) 빌드 |
 | 2026-09-28~29 | nginx 정본을 서버 실제 구성에 맞춰 재작성 — 홈 폴더 배포(`deploy-webpage.sh` 기본 경로 변경), app/api 파일럿 프록시, HTTPS 는 443 SSH 공유 구성(`listen 443 ssl`·`certbot --nginx` 제거) |
 | 2026-09-30 | Cloudflare 대응 — `X-Forwarded-For`·`limit_req` 키를 `$carelink_client_ip` 로, 존 이름 `_cip` 변경 |

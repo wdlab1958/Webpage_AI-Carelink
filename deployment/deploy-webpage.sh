@@ -5,7 +5,7 @@
 #   집/회사  →  git commit & push (GitHub: wdlab1958/Webpage_AI-Carelink)
 #   가비아   →  bash ~/AiCarelink-Webpage/repo/deployment/deploy-webpage.sh
 #
-# 동작: git pull → npm ci → 정적 export(out/) → ~/AiCarelink-Webpage/releases/<sha> →
+# 동작: flock(동시 실행 차단) → git pull → npm ci → 정적 export(out/) → ~/AiCarelink-Webpage/releases/<sha> →
 #       current 심볼릭 링크 교체(원자적) → nginx reload → 이전 릴리스 5개만 보존
 # 롤백: ln -sfn ~/AiCarelink-Webpage/releases/<이전 sha> ~/AiCarelink-Webpage/current && nginx -s reload
 #
@@ -22,6 +22,15 @@ REPO_URL="${REPO_URL:-https://github.com/wdlab1958/Webpage_AI-Carelink.git}"
 log() { printf '\033[0;32m[deploy]\033[0m %s\n' "$*"; }
 
 mkdir -p "$DEPLOY_ROOT/releases"
+
+# 0. 동시 실행 방지 (formal/deploy-release-atomicity F1) — 두 실행이 repo/out 작업 디렉터리를 공유하므로 겹치면
+#    미완성 out/ 이 릴리스로 복사되어 current 가 깨진 사이트를 가리킬 수 있다 → flock 으로 배타 실행, 겹치면 즉시 종료(fail-closed)
+LOCK_FILE="$DEPLOY_ROOT/.deploy.lock"
+exec 9>"$LOCK_FILE"
+if ! flock -n 9; then
+  echo "[deploy] 다른 배포가 진행 중입니다 ($LOCK_FILE) — 끝난 뒤 다시 실행하세요" >&2
+  exit 1
+fi
 
 # 1. 소스 동기화
 if [[ ! -d "$REPO_DIR/.git" ]]; then

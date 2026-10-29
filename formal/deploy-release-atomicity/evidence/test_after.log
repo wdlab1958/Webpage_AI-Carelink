@@ -1,0 +1,30 @@
+== F1 concurrent deploy repro — script: /home/ubuntu-02/ai_project/AiCarelink-Webpage/deployment/deploy-webpage.sh
+== work dir: /tmp/aicl-deploy-repro.XsJt4F
+step 1: A built out/ completely (npm not yet exited)
+step 2: B exited early with rc=1 (lock?) — [deploy] 다른 배포가 진행 중입니다 (/tmp/aicl-deploy-repro.XsJt4F/deploy/.deploy.lock) — 끝난 뒤 다시 실행하세요
+step 3: A finished rc=0 — [0;32m[deploy][0m done: https://www.ai-carelink.co.kr  (sha shaA)
+== P1 (CurrentComplete) after A's swap
+  PASS  current → complete release (index.html + _next/static/app.js) [current=shaA-20261029143940]
+step 4: B re-run after A rc=0 — [0;32m[deploy][0m done: https://www.ai-carelink.co.kr  (sha shaB)
+  PASS  C1: lock released after A — sequential B succeeds
+== P2 (ReleasesComplete) at rest
+  release shaA-20261029143940: complete
+  release shaB-20261029143940: complete
+  PASS  every releases/<sha> is complete (rollback candidates)
+== P1 at rest
+  PASS  current → complete release at rest [current=shaB-20261029143940]
+== deploy logs
+  A| [0;32m[deploy][0m HEAD = shaA (fake commit (A))
+  A| [0;32m[deploy][0m npm ci
+  A| [0;32m[deploy][0m next build (STATIC_EXPORT=1)
+  A| [0;32m[deploy][0m current → /tmp/aicl-deploy-repro.XsJt4F/deploy/releases/shaA-20261029143940
+  A| [0;32m[deploy][0m nginx reload 생략 (정적 파일만 교체됨)
+  A| [0;32m[deploy][0m done: https://www.ai-carelink.co.kr  (sha shaA)
+  B| [0;32m[deploy][0m HEAD = shaB (fake commit (B))
+  B| [0;32m[deploy][0m npm ci
+  B| [0;32m[deploy][0m next build (STATIC_EXPORT=1)
+  B| [0;32m[deploy][0m current → /tmp/aicl-deploy-repro.XsJt4F/deploy/releases/shaB-20261029143940
+  B| [0;32m[deploy][0m nginx reload 생략 (정적 파일만 교체됨)
+  B| [0;32m[deploy][0m done: https://www.ai-carelink.co.kr  (sha shaB)
+RESULT: PASS
+EXIT=0
