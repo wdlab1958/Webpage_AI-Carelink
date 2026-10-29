@@ -135,7 +135,7 @@ const stats = [
 ];
 
 const problems = [
-  { icon: Clock, label: '기존', text: '간병인 구하는 데 평균 수 주 소요', color: 'text-gray-500' },
+  { icon: Clock, label: '기존', text: '간병인을 구하는 데 시간이 오래 걸리기도 합니다', color: 'text-gray-500' },
   { icon: Wallet, label: '기존', text: '월 200~267만원 간병비 전액 사비 부담', color: 'text-gray-500' },
   { icon: ShieldCheck, label: '기존', text: '간병인 자격 · 교육 · 경력 확인 어려움', color: 'text-gray-500' },
   { icon: Sparkles, label: 'AI CareLink', text: 'AI 매칭으로 조건에 맞는 간병인 즉시 추천', color: 'text-teal-400' },

@@ -133,7 +133,7 @@ export default function Pilot2026Page() {
       <section className="relative pt-32 pb-16">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
-            <div className="section-label justify-center">요양급여 제도 변화 · 정부 시범사업 · 보훈공단 AI 실증</div>
+            <div className="section-label justify-center">요양급여 제도 변화 · 정부 시범사업 · 보훈공단 AI 실증 참여 추진</div>
             <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tighter">
               간병이 제도권으로 들어오는 순간,<br />
               <span className="text-gradient">AI CareLink가 준비한 것</span>
@@ -146,7 +146,7 @@ export default function Pilot2026Page() {
               <a href="#policy" className="btn btn-primary btn-sm">급여화 로드맵 <ArrowRight size={16} /></a>
               <a href="#requirements" className="btn btn-outline btn-sm">제도 요건</a>
               <a href="#mapping" className="btn btn-outline btn-sm">대응 기능</a>
-              <a href="#kvhs" className="btn btn-outline btn-sm">보훈공단 실증 제안</a>
+              <a href="#kvhs" className="btn btn-outline btn-sm">보훈공단 실증 제안(참여 추진 중)</a>
             </div>
             <p className="text-xs text-gray-600 mt-6 inline-flex items-center gap-1.5">
               <AlertTriangle size={12} /> 2026년 9월 23일 기준 보건복지부 발표 · 언론 보도 정리. 최종 확정안(수가 · 배치기준 · 청구방식)은 정부 발표에 따라 변경될 수 있습니다.
@@ -293,7 +293,7 @@ export default function Pilot2026Page() {
         <div className="container">
           <div className="section-header">
             <div className="section-label">한국보훈복지의료공단 · AI 의료 솔루션 실증 테스트베드</div>
-            <h2>보훈병원 · 보훈요양원 현장 실증 제안</h2>
+            <h2>보훈병원 · 보훈요양원 현장 실증 제안 <span className="text-base font-medium text-gray-400">— 협약 체결 전, 참여 추진 중</span></h2>
             <p>
               한국보훈복지의료공단은 전국 보훈병원을 AI 의료 솔루션 실증 테스트베드로 개방하고 연계 희망기업을 조사하고 있습니다.
               AI CareLink는 간병 급여화 대응과 돌봄 AI를 축으로 아래 5개 실증 과제를 제안합니다.

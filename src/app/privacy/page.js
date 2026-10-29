@@ -10,10 +10,13 @@ import { Shield, ChevronRight, AlertCircle, History } from 'lucide-react';
 import Link from 'next/link';
 import { APPENDIX, ARTICLES, PRIVACY_HISTORY, PRIVACY_META, SENSITIVE_BANNER, placeholders } from '@/content/privacy-v2';
 import PrivacyV1Page from './history/v1.0/page';
-
-// 작업서 지시: 자리표시자는 임의로 채우지 않는다 → 채워지기 전까지 공개 화면은 종전 v1.0 본문을 유지하고, v1.1 은 소스에만 둔다(P-01 재발 방지).
-const V2_READY = placeholders().length === 0;
+import LegalVersionGate from '@/components/LegalVersionGate';
+import { announcementSentence } from '@/content/legal-meta';
 import { COMPANY } from '@/lib/company';
+
+// 작업서 지시: 자리표시자는 임의로 채우지 않는다 → 채워져 status 가 'announced' 가 되기 전까지 공개 화면은 종전 v1.0 본문을 유지하고, v1.1 은 소스에만 둔다(P-01 재발 방지).
+// L-01: 공고 후에는 버전 게이트가 시행일(2027-01-01 KST) 전 v1.0 / 후 v1.1 을 자동 선택한다.
+const V2_ANNOUNCED = PRIVACY_META.status === 'announced' && placeholders().length === 0;
 
 const articleId = (title) => { const m = title.match(/^제(\d+)조/); return m ? `article-${m[1]}` : 'appendix'; };
 
@@ -41,11 +44,18 @@ function DataTable({ table }) {
 }
 
 export default function PrivacyPage() {
-  if (!V2_READY) return <PrivacyV1Page current />;
-  return <PrivacyV2Page />;
+  if (!V2_ANNOUNCED) return <PrivacyV1Page current />;
+  return (
+    <LegalVersionGate
+      noun="방침"
+      meta={PRIVACY_META}
+      previous={{ version: PRIVACY_META.previousVersion, effectiveAt: PRIVACY_META.previousEffectiveAt, render: (notice) => <PrivacyV1Page current notice={notice} /> }}
+      current={{ render: (notice) => <PrivacyV2Page notice={notice} /> }}
+    />
+  );
 }
 
-function PrivacyV2Page() {
+function PrivacyV2Page({ notice = null }) {
   const meta = (
     <div className="flex flex-wrap gap-4 text-xs text-gray-400">
       <span>버전: {PRIVACY_META.version}</span>
@@ -76,13 +86,15 @@ function PrivacyV2Page() {
               </div>
             </div>
 
+            {notice}
             <div className="p-6 glass rounded-2xl border border-amber-400/30 bg-amber-500/5 mb-4">
               <div className="flex items-start gap-3">
                 <AlertCircle className="text-amber-400 w-5 h-5 mt-0.5 shrink-0" />
                 <div className="text-sm leading-relaxed text-gray-200">
                   <p className="text-amber-200 font-medium">민감정보(건강정보) 처리 안내</p>
                   <p className="mt-1">{SENSITIVE_BANNER}</p>
-                  <p className="mt-2 text-xs text-gray-400">{PRIVACY_META.status}</p>
+                  <p className="mt-2">{announcementSentence('방침', '은', PRIVACY_META.version)}</p>
+                  <p className="mt-2 text-xs text-gray-400">{PRIVACY_META.statusLine}</p>
                 </div>
               </div>
             </div>

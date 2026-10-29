@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { FileText, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { LEGAL_ANNOUNCED_AT, LEGAL_CURRENT_VERSION, LEGAL_EFFECTIVE_AT } from '@/content/legal-meta';
 
-export default function TermsV1Page() {
+/** embedded=true: /terms 기본 뷰(시행일 전 현행 약관)로 렌더. notice: 버전 게이트 안내 요소 */
+export default function TermsV1Page({ embedded = false, notice = null } = {}) {
   const sections = [
     {
       title: '제1조 (목적)',
@@ -132,9 +134,7 @@ export default function TermsV1Page() {
             <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
               <Link href="/" className="hover:text-white transition-colors">홈</Link>
               <ChevronRight size={16} />
-              <Link href="/terms" className="hover:text-white transition-colors">이용약관</Link>
-              <ChevronRight size={16} />
-              <span className="text-white">v1.0 (종전 약관)</span>
+              {embedded ? <span className="text-white">이용약관</span> : <><Link href="/terms" className="hover:text-white transition-colors">이용약관</Link><ChevronRight size={16} /><span className="text-white">v1.0 (종전 약관)</span></>}
             </div>
 
             {/* Header */}
@@ -143,17 +143,20 @@ export default function TermsV1Page() {
                 <FileText className="text-purple-400 w-7 h-7" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold">이용약관 v1.0 (종전)</h1>
-                <p className="text-gray-400 mt-1">AI CareLink 서비스 이용약관 — 2026-01-01 시행, 2027-01-01 v1.1 시행 전까지 적용</p>
+                <h1 className="text-4xl font-bold">{embedded ? '이용약관' : '이용약관 v1.0 (종전)'}</h1>
+                <p className="text-gray-400 mt-1">AI CareLink 서비스 이용약관 v1.0 — 2026-01-01 시행, {LEGAL_EFFECTIVE_AT} v{LEGAL_CURRENT_VERSION} 시행 전까지 적용</p>
               </div>
             </div>
 
+            {notice}
             {/* Info Box */}
             <div className="p-6 glass rounded-2xl border border-white/10 mb-8">
-              <p className="text-gray-300 text-sm leading-relaxed">
-                이 페이지는 종전 약관(v1.0)의 보존본입니다. 2026-12-01 공고되는 개정 약관(v1.1)은 2027-01-01부터 시행되며, 시행 전까지는 이 약관이 적용됩니다.{' '}
-                <Link href="/terms" className="text-purple-300 underline">개정 약관(v1.1) 보기</Link>
-              </p>
+              {!embedded && (
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  이 페이지는 종전 약관(v1.0)의 보존본입니다. 개정 약관(v{LEGAL_CURRENT_VERSION})은 {LEGAL_ANNOUNCED_AT}에 공고되었고 {LEGAL_EFFECTIVE_AT}부터 시행되며, 시행 전까지는 이 약관이 적용됩니다.{' '}
+                  <Link href={{ pathname: '/terms', query: { version: LEGAL_CURRENT_VERSION } }} className="text-purple-300 underline">개정 약관(v{LEGAL_CURRENT_VERSION}) 보기</Link>
+                </p>
+              )}
               <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-400">
                 <span>시행일: 2026년 1월 1일</span>
                 <span>버전: 1.0</span>
