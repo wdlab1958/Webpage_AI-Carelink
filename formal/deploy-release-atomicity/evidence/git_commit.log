@@ -1,0 +1,54 @@
+commit 5eb9b224e7f3e51a34f7d567abe10a1613cdf43e
+Author: wdlab1958 <wdlab1958@gmail.com>
+Date:   Thu Oct 29 14:48:07 2026 +0900
+
+    formal: WDLAB proof-skills 검증 (deploy-release-atomicity) — FIXED 2026-10-29
+    
+    WDLAB-STD-VERIFY-001 v1.0 W1 Bug hunt, 달성 레벨 L2 (TLA+/TLC 2026.10.28).
+    
+    - concern: deployment/deploy-webpage.sh 두 실행이 겹치면 공유 repo/out 의 미완성 산출물이
+      releases/ 로 복사되고 current 가 그것을 가리키는 레이스 (F1, severity high)
+    - 모델: formal/deploy-release-atomicity/tla (fix toggle UseLock, 3-config: MC PASS / MC_bug FAIL / MC_sanity FAIL),
+      Deployers={d1,d2}, 49 states / 37 distinct / depth 13
+    - 재현: repro/test_F1_concurrent_deploy.sh (가짜 git/npm + 게이트 barrier) — 수정 전 FAIL, 수정 후 PASS
+    - 수정: 스크립트 시작부 flock -n $DEPLOY_ROOT/.deploy.lock 배타 실행 (겹치면 즉시 exit 1, fail-closed)
+    - 부수 발견(미수정): F2 src/lib/api.js 동시 401 토큰 갱신 경합(사장 코드, SUSPECTED), F3 /images/og-image.png 누락(CONFIRMED)
+    - L0: lint·build:static·링크/라우트 대응 PASS. README 에 형식 검증 섹션 추가.
+    - HITL pending: G2 속성 동결, G7 수정 설계(flock -n vs flock -w)
+    
+    Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+
+ README.md                                          |  14 +-
+ deployment/deploy-webpage.sh                       |  11 +-
+ formal/.gitignore                                  |   5 +
+ formal/CANDIDATES.md                               |  32 +++
+ formal/README.md                                   |  39 ++++
+ formal/TOOLCHAIN.lock                              |   8 +
+ formal/deploy-release-atomicity/CORRESPONDENCE.md  |  43 ++++
+ formal/deploy-release-atomicity/SCOPE.md           |  47 +++++
+ .../evidence/l0_build_static.log                   |  82 ++++++++
+ .../deploy-release-atomicity/evidence/l0_lint.log  |   5 +
+ .../evidence/l0_syntax.log                         |   3 +
+ .../deploy-release-atomicity/evidence/mutation.log |  13 ++
+ .../evidence/mutation_tlc.log                      |  96 +++++++++
+ .../evidence/patches/F1-deploy-webpage-flock.diff  |  29 +++
+ .../evidence/test_after.log                        |  30 +++
+ .../evidence/test_before.log                       |  29 +++
+ .../deploy-release-atomicity/evidence/tlc_bug.log  |  96 +++++++++
+ .../evidence/tlc_bug_current.log                   | 103 ++++++++++
+ .../evidence/tlc_fixed.log                         | 145 ++++++++++++++
+ .../evidence/tlc_sanity.log                        | 124 ++++++++++++
+ .../deploy-release-atomicity/evidence/trace_bug.md |  11 +
+ .../evidence/trace_bug_current.md                  |  12 ++
+ .../evidence/trace_sanity.md                       |  15 ++
+ .../repro/test_F1_concurrent_deploy.sh             | 141 +++++++++++++
+ .../deploy-release-atomicity/tla/DeployRelease.tla | 115 +++++++++++
+ formal/deploy-release-atomicity/tla/MC.cfg         |  13 ++
+ formal/deploy-release-atomicity/tla/MC_bug.cfg     |  10 +
+ .../tla/MC_bug_current.cfg                         |   7 +
+ formal/deploy-release-atomicity/tla/MC_sanity.cfg  |   7 +
+ formal/deploy-release-atomicity/tla/Properties.tla |  27 +++
+ formal/findings.json                               | 104 ++++++++++
+ .../reports/2026-10-29-deploy-release-atomicity.md | 221 +++++++++++++++++++++
+ formal/run_all.sh                                  |  26 +++
+ 33 files changed, 1660 insertions(+), 3 deletions(-)
