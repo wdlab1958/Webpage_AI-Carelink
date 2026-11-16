@@ -11,6 +11,11 @@
 - **실행**: `bash formal/run_all.sh` (MC=PASS / MC_bug=FAIL / MC_sanity=FAIL / 재현 테스트 PASS 단언, `TLC_WORKERS` 존중) · 재현만: `bash formal/deploy-release-atomicity/repro/test_F1_concurrent_deploy.sh`
 - **보고서**: `formal/reports/2026-10-29-deploy-release-atomicity.md` (docx: `~/ai_project/Proof-Skills/AiCarelink-Webpage_ProofSkills_Report_2026-10-29.docx`) · HITL pending: G2 속성 동결 승인, G7 수정 설계(`flock -n` 즉시 종료 vs `flock -w` 대기)
 
+### W5 CI 회귀 가드 — Nov.16, 2026
+
+- `.github/workflows/formal.yml`(`formal-verification`, fail-closed): `formal/**`·`deployment/**`·`README.md` 변경 PR/push 와 nightly 에 TLA+ 3-config 게이트(MC PASS / MC_bug FAIL / MC_sanity FAIL + F1 재현 테스트)와 W6 드리프트 검사(`formal/tools/correspondence_check.py` — 스펙→코드 `file:line` 포인터 유효성)를 실행해, F1 수정이 되돌아가거나 모델이 코드와 어긋나는 변경을 머지 전에 막는다. 상세·재실행 명령: `formal/README.md` "CI (W5/W6)".
+- PR 체크리스트: `formal/deploy-release-atomicity/CORRESPONDENCE.md` 가 가리키는 파일(`deployment/deploy-webpage.sh` 등)을 바꿨다면 스펙·CORRESPONDENCE 갱신 여부를 확인한다.
+
 ## 프로젝트 소개
 
 AI CareLink 플랫폼의 진입 페이지(대문)입니다. 2026-10-14 UX 개편으로 메인(`/`)은 **B2C 역할 우선 진입** — 첫 질문 하나

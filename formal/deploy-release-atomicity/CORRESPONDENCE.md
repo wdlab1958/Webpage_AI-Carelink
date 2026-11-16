@@ -20,10 +20,10 @@ Spec commit: `07e4dfc` + 본 검증의 수정 패치(`evidence/patches/F1-deploy
 | `Copy(d)` | `:53` `test -f out/index.html \|\| exit 1`, `:56-58` `RELEASE=…; mkdir -p; cp -a out/. "$RELEASE/"` `[전: 44, 47-49]` | action | 스냅숏 복사 원자(A2); `out=absent` → set -e 종료 | `rel'[d] = out` |
 | `Swap(d)` | `:59-60` `ln -sfn … current.tmp; mv -Tf current.tmp current` `[전: 50-51]`, `:63-75` nginx reload·정리·종료 `[전: 55-66]` | action | reload·정리 무시(A5·A6); 종료 시 flock 해제 | `current' = d` |
 | `Terminated` | 모든 프로세스 종료 | action | 교착 검사용 명시적 종료 | |
-| `CurrentComplete` (P1) | `deploy-webpage.sh:8-9`, `README.md:24`, `nginx/ai-carelink-www.conf:29` | invariant (frozen) | | `Properties.tla` |
-| `ReleasesComplete` (P2) | `deploy-webpage.sh:10`, `deployment/README.md:101` | invariant (frozen) | | `Properties.tla` |
-| `SomeoneDeploys` (P3) | `deploy-webpage.sh:8` | liveness (frozen) | WF_vars(Step) — 운영자가 시작한 스크립트는 멈추지 않고 진행한다는 가정 | |
-| `LockReleasedWhenDone` (C1) | `deploy-webpage.sh:28-33` | invariant (code) | | |
+| `CurrentComplete` (P1) | `deployment/deploy-webpage.sh:8-9`, `README.md:24`, `deployment/nginx/ai-carelink-www.conf:29` | invariant (frozen) | | `Properties.tla` |
+| `ReleasesComplete` (P2) | `deployment/deploy-webpage.sh:10`, `deployment/README.md:101` | invariant (frozen) | | `Properties.tla` |
+| `SomeoneDeploys` (P3) | `deployment/deploy-webpage.sh:8` | liveness (frozen) | WF_vars(Step) — 운영자가 시작한 스크립트는 멈추지 않고 진행한다는 가정 | |
+| `LockReleasedWhenDone` (C1) | `deployment/deploy-webpage.sh:28-33` | invariant (code) | | |
 | `NeverBothDone` | — | sanity (must fail) | | |
 
 ## Assumptions

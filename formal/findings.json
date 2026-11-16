@@ -99,6 +99,7 @@
     "verdict": "FIXED (F1) / BOUNDED-PASS (수정 후 모델, Deployers=2, 49 states, depth 13)",
     "hitl_approvals": ["G2: pending Brian review", "G7: pending Brian review (flock -n fail-fast; 대안 flock -w <초> 대기)"],
     "risk_domain": "healthcare-marketing-site-availability",
-    "one_cycle_stage": "dev → LLMOps-eval(미적용) → SSC → ARGUS"
+    "one_cycle_stage": "dev → LLMOps-eval(미적용) → SSC → ARGUS",
+    "w5_ci": {"workflow": ".github/workflows/formal.yml", "registered": "2026-11-16", "jobs": ["three-config-gate", "drift-check"], "policy": "fail-closed"}
   }
 }

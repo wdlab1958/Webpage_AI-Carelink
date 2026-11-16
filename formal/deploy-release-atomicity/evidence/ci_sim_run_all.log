@@ -1,0 +1,10 @@
+	TLC - provides model checking and simulation of TLA+ specifications - Version 2026.11.15.002146
+tla2tools.jar sha256: 7e53aa636dac8a3c…  (note: the v1.8.0 GitHub release is a rolling pre-release; the CI log records the actual TLC build)
+TLA+ tools ready in /tmp/tmp.pG2FviDLIq
+== TLC three-config gate (Deployers={d1,d2})
+  OK    MC.cfg → exit 0 (expected 0)
+  OK    MC_bug.cfg → exit 12 (expected 12)
+  OK    MC_sanity.cfg → exit 12 (expected 12)
+== F1 reproduction SKIPPED (FORMAL_SKIP_TESTS=1)
+ALL GATES OK
+EXIT=0
